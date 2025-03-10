@@ -22,14 +22,34 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
+    public function store(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+        'role' => ['required', 'in:kabupaten,lembaga'], // Validasi role hanya bisa kabupaten atau lembaga
+    ]);
 
+    if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
         $request->session()->regenerate();
+        $user = Auth::user();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Pastikan role yang dipilih sesuai dengan role di database
+        if ($user->role !== $credentials['role']) {
+            Auth::logout();
+            return back()->withErrors(['email' => 'Role yang dipilih tidak sesuai dengan akun ini.']);
+        }
+
+        // Redirect berdasarkan role
+        return ($user->role === 'kabupaten') 
+            ? redirect()->route('dashboard') 
+            : redirect()->route('dashboarduser');
     }
+
+    return back()->withErrors([
+        'email' => 'Email atau password salah.',
+    ])->onlyInput('email');
+}
 
     /**
      * Destroy an authenticated session.
@@ -39,7 +59,6 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');

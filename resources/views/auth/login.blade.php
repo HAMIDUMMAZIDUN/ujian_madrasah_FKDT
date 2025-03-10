@@ -2,6 +2,11 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <!-- Pesan Error Jika Bukan Admin -->
+    @if(session('error'))
+        <p class="text-red-500 text-sm mt-2 text-center">{{ session('error') }}</p>
+    @endif
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
