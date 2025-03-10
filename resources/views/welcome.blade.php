@@ -39,15 +39,6 @@
                     <input type="password" name="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
                 </div>
 
-                <!-- Pilihan Role -->
-                <div class="mb-4">
-                    <label for="role" class="block text-gray-700 mb-1">Login sebagai</label>
-                    <select name="role" id="role" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
-                        <option value="kabupaten">Admin Kabupaten</option>
-                        <option value="lembaga">Admin Lembaga</option>
-                    </select>
-                </div>
-
                 <!-- reCAPTCHA -->
                 <div class="mb-4">
                     <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
@@ -59,8 +50,6 @@
                     <p class="text-red-500 text-sm mt-2 text-center">{{ session('error') }}</p>
                 @endif
             </form>
-
-
 
             <div class="text-center mt-4 text-xs text-gray-500">
                 Tim Teknis DPC FKDT Kabupaten Bandung
