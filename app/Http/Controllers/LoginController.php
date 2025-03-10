@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Models\User;
 
 class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        return view('auth.login'); // Pastikan view ini sesuai dengan lokasi file login blade
+        return view('pages.login');
     }
 
     public function login(Request $request)
@@ -18,13 +19,16 @@ class LoginController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'g-recaptcha-response' => 'required|captcha',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($request->only('email', 'password'))) {
+            $user = Auth::user(); // Mendapatkan data user yang berhasil login
 
-        if (Auth::attempt($credentials)) {
-            return redirect()->route('dashboard'); // Sesuaikan dengan rute dashboard aplikasi
+            if ($user->role === 'admin') {
+                return redirect()->route('admin.dashboard'); // Admin masuk ke dashboard utama
+            } elseif ($user->role === 'user') {
+                return redirect()->route('Lembaga.dashboard'); // User masuk ke user dashboard
+            }
         }
 
         return redirect()->back()->with('error', 'Email atau password salah.');

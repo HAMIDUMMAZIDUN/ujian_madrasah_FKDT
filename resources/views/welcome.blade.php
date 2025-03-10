@@ -39,11 +39,6 @@
                     <input type="password" name="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" required>
                 </div>
 
-                <!-- reCAPTCHA -->
-                <div class="mb-4">
-                    <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div>
-                </div>
-
                 <button type="submit" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">Login</button>
 
                 @if(session('error'))

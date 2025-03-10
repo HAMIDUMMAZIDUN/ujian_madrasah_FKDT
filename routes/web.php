@@ -21,16 +21,18 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Route Default Dashboard (Mencegah Loop Redirect)
 Route::get('/dashboard', function () {
-    return Auth::check() ? redirect()->route('user.dashboard') : redirect()->route('login');
+    if (!Auth::check()) {
+        return redirect()->route('login');
+    }
+    
+    $user = Auth::user();
+    return $user->role === 'admin' ? redirect()->route('admin.dashboard') : redirect()->route('user.dashboard');
 })->middleware('auth')->name('dashboard');
 
-// Route untuk User
+// Route untuk User dan Admin
 Route::middleware(['auth'])->group(function () {
-    Route::get('/user/dashboard', function () {
-        return view('admin.dashboard'); // Pastikan ada file resources/views/dashboard.blade.php
-    })->name('user.dashboard');
-
-    Route::get('/admin/dashboard', [UserController::class, 'index'])->name('admin.dashboard');
+    Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
     // Route untuk mengelola profil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
