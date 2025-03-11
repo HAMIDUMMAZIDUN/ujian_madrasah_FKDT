@@ -13,42 +13,64 @@
     </style>
 </head>
 <body class="bg-gray-100">
-    <div x-data="{ sidebarOpen: true }" class="flex">
-        <!-- Sidebar -->
-        <aside :class="sidebarOpen ? 'w-64' : 'w-16'" class="h-screen bg-white p-4 shadow-md transition-all duration-300 relative">
-            <!-- Header Sidebar -->
-            <div class="flex items-center">
-                <button @click="sidebarOpen = !sidebarOpen" class="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                    <i data-lucide="menu"></i>
-                </button>
+<div x-data="{ sidebarOpen: true }" class="flex">
+    <!-- Sidebar -->
+    <aside :class="sidebarOpen ? 'w-64' : 'w-16'" class="h-screen bg-gray-900 text-gray-200 p-4 shadow-md transition-all duration-300 relative">
+        <!-- Header Sidebar -->
+        <div class="flex items-center">
+            <button @click="sidebarOpen = !sidebarOpen" class="p-2 text-gray-400 hover:bg-gray-700 rounded">
+                <i data-lucide="menu"></i>
+            </button>
 
-                <div class="flex items-center ml-4" x-show="sidebarOpen" x-cloak>
-                    <img src="{{ asset('images/FKDT.png') }}" alt="FKDT Logo" class="w-10 h-10">
-                    <span class="ml-2 font-semibold text-gray-900">PDUMDT</span>
-                </div>
+            <div class="flex items-center ml-4" x-show="sidebarOpen" x-cloak>
+                <img src="{{ asset('images/FKDT.png') }}" alt="FKDT Logo" class="w-10 h-10">
+                <span class="ml-2 font-semibold text-white">PDUMDT</span>
             </div>
+        </div>
 
-            <div class="border-t-4 border-gray-300 my-4"></div>
+        <div class="border-t-4 border-gray-700 my-4"></div>
 
             <!-- Sidebar Menu -->
             <nav class="space-y-2">
-                <a href="#" class="flex items-center p-2 text-gray-700 hover:bg-gray-200 rounded">
-                    <i data-lucide="layout-dashboard"></i>
-                    <span x-show="sidebarOpen" class="ml-2">Dashboard</span>
+
+             <!-- Search Box -->
+            <div class="p-2">
+                <input type="text" id="searchBox" placeholder="Search..." class="w-full p-2 border rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            
+            <!-- Fitur Menu -->
+            <a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded">
+                <i data-lucide="layout-dashboard"></i>
+                <span x-show="sidebarOpen" class="ml-2">Dashboard</span>
+            </a>
+            
+            <!-- Data Lembaga dengan Submenu -->
+            <div x-data="{ open: false }">
+                <a href="#" @click="open = !open" class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rounded cursor-pointer">
+                    <div class="flex items-center">
+                        <i data-lucide="building"></i>
+                        <span x-show="sidebarOpen" class="ml-2">Data Lembaga</span>
+                    </div>
+                    <i data-lucide="chevron-down" x-show="sidebarOpen"></i>
                 </a>
-                <a href="#" class="flex items-center p-2 text-gray-700 hover:bg-gray-200 rounded">
-                    <i data-lucide="building"></i>
-                    <span x-show="sidebarOpen" class="ml-2">Data Lembaga</span>
-                </a>
-                <a href="#" class="flex items-center p-2 text-gray-700 hover:bg-gray-200 rounded">
-                    <i data-lucide="users"></i>
-                    <span x-show="sidebarOpen" class="ml-2">Data Siswa</span>
-                </a>
-                <a href="#" class="flex items-center p-2 text-gray-700 hover:bg-gray-200 rounded">
-                    <i data-lucide="clipboard-list"></i>
-                    <span x-show="sidebarOpen" class="ml-2">Ujian Siswa</span>
-                </a>
-            </nav>
+                <div x-show="open" class="ml-6 space-y-1" x-collapse>
+                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Profil Sekolah</a>
+                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Tahun Akademik</a>
+                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Buat Rombel Siswa Baru</a>
+                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Pendaftaran Ulang</a>
+                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Tambahkan Wali Kelas</a>
+                </div>
+            </div>
+            <!-- Data siswa -->
+            <a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded">
+                <i data-lucide="users"></i>
+                <span x-show="sidebarOpen" class="ml-2">Data Siswa</span>
+            </a>
+            <a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded">
+                <i data-lucide="clipboard-list"></i>
+                <span x-show="sidebarOpen" class="ml-2">Ujian Siswa</span>
+            </a>
+        </nav>
         </aside>
 
         <!-- Main Content -->
@@ -92,16 +114,15 @@
     </div>
 
     <!-- TABEL DETAIL DATA -->
-    <div class="mt-6 bg-white p-6 shadow rounded-lg overflow-auto max-h-[500px]">
+        <div class="mt-6 bg-white p-6 shadow rounded-lg overflow-auto h-[calc(90vh-90px)]">
         <div class="text-center mt-4">
         @include('database.mastermdt', compact('data'))
-            <button id="view-all-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg">View All</button>
+        <button id="view-all-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg mx-auto block">View All</button>
         </div>
-        <div id="hidden-data" class="hidden mt-4 overflow-x-auto">
-           
-        </div>
-    </div>
-</main>
+
+            <div id="hidden-data" class="hidden mt-4 overflow-auto">
+            </div>
+        </main>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
