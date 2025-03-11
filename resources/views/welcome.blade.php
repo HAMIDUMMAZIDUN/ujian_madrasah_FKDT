@@ -14,10 +14,10 @@
     
     <!-- Layout dengan Gambar di Kiri dan Form di Kanan -->
     <div class="w-full h-screen flex flex-col md:flex-row relative z-10">
-        <!-- Bagian Kiri: Gambar -->
-        <div class="hidden md:flex md:w-1/2 items-center justify-center bg-gray-200 p-8">
-            <img src="your-image.png" alt="Ilustrasi" class="w-3/4 max-w-sm">
-        </div>
+    <!-- Bagian Kiri: Gambar Background Full -->
+    <div class="hidden md:flex md:w-1/2 relative">
+        <img src="{{ asset('images/background.jpg') }}" alt="Ilustrasi" class="absolute inset-0 w-full h-full object-cover">
+    </div>
 
         <!-- Bagian Kanan: Form Login -->
         <div class="w-full md:w-1/2 h-full flex flex-col justify-center bg-white p-8 relative">

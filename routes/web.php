@@ -9,28 +9,29 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MasterMDTController;
 
-// Route untuk halaman utama
-Route::get('/', function () {
+    // Route untuk halaman utama
+    Route::get('/', function () {
     return view('welcome');
-});
+    });
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login']);
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Route Default Dashboard (Mencegah Loop Redirect)
-Route::get('/dashboard', function () {
+    // Route Default Dashboard (Mencegah Loop Redirect)
+    Route::get('/dashboard', function () {
     if (!Auth::check()) {
         return redirect()->route('login');
     }
     
     $user = Auth::user();
     return $user->role === 'admin' ? redirect()->route('admin.dashboard') : redirect()->route('user.dashboard');
-})->middleware('auth')->name('dashboard');
+    })->middleware('auth')->name('dashboard');
 
-// Route untuk User dan Admin
-Route::middleware(['auth'])->group(function () {
+    // Route untuk User dan Admin
+    Route::middleware(['auth'])->group(function () {
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
@@ -43,8 +44,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/ujian', UjianController::class);
 });
 
-// Route untuk logout menggunakan controller
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    // Route untuk logout menggunakan controller
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-// Memuat route auth tambahan dari Laravel Breeze/Fortify jika digunakan
-require __DIR__.'/auth.php';
+    //Route untuk masterMDT
+    Route::get('/master_mdt', [MasterMDTController::class, 'index']);
+
+    // Memuat route auth tambahan dari Laravel Breeze/Fortify jika digunakan
+    require __DIR__.'/auth.php';
