@@ -1,15 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use Illuminate\Http\Request;
-use App\Models\MasterMDT;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class MasterMDTController extends Controller
+class MasterMdt extends Model
 {
-    public function index()
-    {
-        $data = MasterMDT::all(); // Ambil semua data dari tabel master_mdt
-        return view('master_mdt.index', compact('data'));
-    }
+    use HasFactory;
+
+    protected $table = 'master_mdt'; // Pastikan tabelnya benar
+
+    protected $fillable = [
+        'kode_mdt',
+        'nama_lembaga_MDT',
+        'alamat_madrasah',
+        'rt',
+        'rw',
+        'desa',
+        'kecamatan',
+        'nsdt',
+        'no_hp',
+        'nama_kepala_MDT',
+    ];
 }

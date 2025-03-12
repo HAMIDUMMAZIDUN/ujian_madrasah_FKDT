@@ -24,7 +24,7 @@
             <div class="text-center mb-6">
                 <img src="{{ asset('images/FKDT.png') }}" alt="Logo" class="w-24 mx-auto mb-4">
                 <h1 class="text-2xl font-bold text-gray-700">DPC FKDT KAB.BANDUNG</h1>
-                <p class="text-gray-500">Silakan login menggunakan akun PDUM Lembaga Anda</p>
+                <p class="text-gray-500">Silakan login menggunakan akun Panitia Kecamatan PDUMDT</p>
             </div>
 
             <form method="POST" action="{{ route('login') }}" class="w-full max-w-md mx-auto">

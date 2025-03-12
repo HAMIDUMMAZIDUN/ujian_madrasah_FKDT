@@ -19,6 +19,19 @@ class AdminController extends Controller
             ->orderBy('kecamatan')
             ->pluck('kecamatan');
 
+        // Query untuk filter kode_mdt yang relevan
+        $queryKodeMDT = DB::table('master_mdt')->select('kode_mdt')->distinct();
+        
+        if ($request->has('kecamatan') && $request->kecamatan != '') {
+            $queryKodeMDT->where('kecamatan', $request->kecamatan);
+        }
+        
+        if ($request->has('desa') && $request->desa != '') {
+            $queryKodeMDT->where('desa', $request->desa);
+        }
+
+        $list_kode_mdt = $queryKodeMDT->orderBy('kode_mdt')->pluck('kode_mdt');
+
         // Query data sesuai filter yang dipilih
         $query = DB::table('master_mdt');
 
@@ -30,40 +43,49 @@ class AdminController extends Controller
             $query->where('desa', $request->desa);
         }
 
+        if ($request->has('kode_mdt') && $request->kode_mdt != '') {
+            $query->where('kode_mdt', $request->kode_mdt);
+        }
+
         $data = $query->get();
 
-        // Hitung jumlah lembaga dengan nama unik
-        $jumlah_lembaga = MasterMDT::whereNotNull('nama_lembaga_MDT')
-            ->select('nama_lembaga_MDT')
+        // Hitung jumlah lembaga berdasarkan filter
+        $jumlah_lembaga = DB::table('master_mdt')
+            ->whereNotNull('nama_lembaga_MDT')
             ->distinct()
-            ->count();
+            ->count('nama_lembaga_MDT');
 
-        $jumlah_desa = MasterMDT::whereNotNull('desa')
-            ->select('desa')
+        // Hitung jumlah desa berdasarkan filter
+        $jumlah_desa = DB::table('master_mdt')
+            ->whereNotNull('desa')
             ->distinct()
-            ->count();
+            ->count('desa');
 
-        $jumlah_kecamatan = MasterMDT::whereNotNull('kecamatan')
-            ->select('kecamatan')
+        // Hitung jumlah kecamatan berdasarkan filter
+        $jumlah_kecamatan = DB::table('master_mdt')
+            ->whereNotNull('kecamatan')
             ->distinct()
-            ->count();
+            ->count('kecamatan');
 
-        // Hitung jumlah santri
-        $jumlah_santri = MasterMDT::whereNotNull('nama_santri')->count(); 
+        // Hitung jumlah santri berdasarkan filter
+        $jumlah_santri = DB::table('master_mdt')
+            ->whereNotNull('nama_santri')->count();
 
-        return view('admin.dashboard', [
-            'data' => $data,
-            'jumlah_lembaga' => $jumlah_lembaga, 
-            'jumlah_santri' => $jumlah_santri, 
-            'jumlah_desa' => $jumlah_desa, 
-            'jumlah_kecamatan' => $jumlah_kecamatan, 
-            'list_kecamatan' => $list_kecamatan, // Kirim ke view
-        ]);
+        // Return ke view
+        return view('admin.dashboard', compact(
+            'data',
+            'jumlah_lembaga',
+            'jumlah_santri',
+            'jumlah_desa',
+            'jumlah_kecamatan',
+            'list_kecamatan',
+            'list_kode_mdt'
+        ));
     }
 
     public function getDesaByKecamatan(Request $request)
     {
-        $desaList = DB::table('master_mdt') // Pastikan tabelnya benar
+        $desaList = DB::table('master_mdt')
             ->where('kecamatan', $request->kecamatan)
             ->select('desa')
             ->distinct()
@@ -72,10 +94,9 @@ class AdminController extends Controller
 
         return response()->json($desaList);
     }
+
     public function downloadExcel()
     {
         return Excel::download(new DataExport, 'data-detail.xlsx');
     }
-
-    }
-
+}

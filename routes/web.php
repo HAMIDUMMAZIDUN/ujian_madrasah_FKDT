@@ -13,6 +13,7 @@ use App\Http\Controllers\MasterMDTController;
 use App\Http\Controllers\DataController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\LembagaController;
 
 
     // Route untuk halaman utama
@@ -55,8 +56,18 @@ use Illuminate\Support\Facades\DB;
     Route::get('/get-all-data', [DataController::class, 'getAllData']);
     Route::get('/get-desa', [AdminController::class, 'getDesaByKecamatan']);
     Route::get('/admin/download-excel', [AdminController::class, 'downloadExcel'])->name('admin.downloadExcel');
+    Route::get('/tambah-lembaga', [LembagaController::class, 'create'])->name('lembaga.create');
+    Route::post('/tambah-lembaga', [LembagaController::class, 'store'])->name('lembaga.store');
+    Route::get('/admin/tambah-lembaga', [LembagaController::class, 'create'])->name('admin.tambah_lembaga');
+    Route::post('/admin/simpan-lembaga', [LembagaController::class, 'store'])->name('admin.simpan_lembaga');
+    Route::post('/simpan-kecamatan', [LembagaController::class, 'simpanKecamatan']);
+    Route::post('/simpan-desa', [LembagaController::class, 'simpanDesa']);
+    Route::get('/get-last-mdt', [LembagaController::class, 'getLastMDT']);
+    // Route untuk menampilkan form tambah lembaga
+    Route::get('/lembaga/tambah', [LembagaController::class, 'create'])->name('lembaga.create');
 
-
+    // Route untuk menyimpan data lembaga
+    Route::post('/lembaga/store', [LembagaController::class, 'store'])->name('lembaga.store');
 
 });
 

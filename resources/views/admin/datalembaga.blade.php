@@ -1,35 +1,62 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Ujian</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-6">
-    <div class="container mx-auto">
-        <h1 class="text-2xl font-bold text-center text-blue-600">Daftar Ujian</h1>
-        <table class="table-auto w-full bg-white shadow-md rounded-lg mt-4">
-            <thead>
-                <tr class="bg-blue-500 text-white">
-                    <th class="px-4 py-2">No</th>
-                    <th class="px-4 py-2">Nama Ujian</th>
-                    <th class="px-4 py-2">Tanggal</th>
-                    <th class="px-4 py-2">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="border px-4 py-2 text-center">1</td>
-                    <td class="border px-4 py-2">Ujian Akhir Semester</td>
-                    <td class="border px-4 py-2">2025-06-10</td>
-                    <td class="border px-4 py-2 text-center">
-                        <button class="bg-green-500 text-white px-3 py-1 rounded">Edit</button>
-                        <button class="bg-red-500 text-white px-3 py-1 rounded">Hapus</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+@extends('layouts.app')
+
+@section('content')
+<div class="container mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">Data Lembaga</h1>
+    
+    <table class="w-full border">
+        <thead>
+            <tr class="bg-gray-200">
+                <th class="border px-4 py-2">Nama Lembaga</th>
+                <th class="border px-4 py-2">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($lembagas as $lembaga)
+            <tr>
+                <td class="border px-4 py-2">{{ $lembaga->nama }}</td>
+                <td class="border px-4 py-2">
+                    <button onclick="openEditModal({{ $lembaga->id }}, '{{ $lembaga->nama }}')" 
+                        class="bg-blue-500 text-white px-2 py-1 rounded">Edit</button>
+                    
+                    <form action="{{ route('data-lembaga.delete') }}" method="POST" class="inline">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $lembaga->id }}">
+                        <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded">Hapus</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Edit -->
+<div id="editModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-4 rounded">
+        <h2 class="text-xl font-bold">Edit Lembaga</h2>
+        <form action="{{ route('data-lembaga.update') }}" method="POST">
+            @csrf
+            <input type="hidden" id="editId" name="id">
+            <input type="text" id="editNama" name="nama" class="border p-2 w-full" required>
+            <div class="mt-4">
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Simpan</button>
+                <button type="button" onclick="closeEditModal()" class="bg-gray-500 text-white px-4 py-2 rounded">Batal</button>
+            </div>
+        </form>
     </div>
-</body>
-</html>
+</div>
+
+<script>
+    function openEditModal(id, nama) {
+        document.getElementById('editId').value = id;
+        document.getElementById('editNama').value = nama;
+        document.getElementById('editModal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').classList.add('hidden');
+    }
+</script>
+
+@endsection
