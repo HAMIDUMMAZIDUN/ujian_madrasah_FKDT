@@ -10,6 +10,10 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MasterMDTController;
+use App\Http\Controllers\DataController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
     // Route untuk halaman utama
     Route::get('/', function () {
@@ -42,6 +46,16 @@ use App\Http\Controllers\MasterMDTController;
 
     // Route CRUD otomatis untuk ujian
     Route::resource('/ujian', UjianController::class);
+
+    // Route filter
+    Route::get('/get-kecamatan', [DataController::class, 'getKecamatan']);
+    Route::get('/get-desa/{kecamatan_id}', [DataController::class, 'getDesa']);
+    Route::get('/get-lembaga/{desa_id}', [DataController::class, 'getLembaga']);
+    Route::get('/filter-data', [DataController::class, 'filterData']);
+    Route::get('/get-all-data', [DataController::class, 'getAllData']);
+    Route::get('/get-desa', [AdminController::class, 'getDesaByKecamatan']);
+
+
 });
 
     // Route untuk logout menggunakan controller

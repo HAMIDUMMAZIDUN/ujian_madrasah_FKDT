@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         [x-cloak] { display: none !important; }
     </style>
@@ -29,6 +30,7 @@
         </div>
 
         <div class="border-t-4 border-gray-700 my-4"></div>
+        <script src="{{ asset('js/filter.js') }}"></script>
 
             <!-- Sidebar Menu -->
             <nav class="space-y-2">
@@ -43,7 +45,33 @@
                 <i data-lucide="layout-dashboard"></i>
                 <span x-show="sidebarOpen" class="ml-2">Dashboard</span>
             </a>
-            
+
+            <!-- FORM FILTER -->
+            <form method="GET" action="{{ route('admin.dashboard') }}" id="filter-form" class="p-4 bg-white rounded shadow">
+                <div class="mb-4">
+                    <label for="kecamatan" class="block text-black font-semibold">Pilih Kecamatan:</label>
+                    <select name="kecamatan" id="kecamatan" class="w-full p-2 text-black font-semibold border rounded">
+                        <option value="">Semua Kecamatan</option>
+                        @foreach($list_kecamatan as $kecamatan)
+                            <option value="{{ $kecamatan }}">{{ $kecamatan }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="desa" class="block text-black font-semibold">Pilih Desa:</label>
+                    <select name="desa" id="desa" class="w-full p-2 text-black font-semibold border rounded">
+                        <option value="">Semua Desa</option>
+                    </select>
+                </div>
+
+                <!-- Button Filter -->
+                <button type="submit" class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">
+                    Filter
+                </button>
+            </form>
+
+
             <!-- Data Lembaga dengan Submenu -->
             <div x-data="{ open: false }">
                 <a href="#" @click="open = !open" class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rounded cursor-pointer">
@@ -72,6 +100,8 @@
             </a>
         </nav>
         </aside>
+       
+
 
         <!-- Main Content -->
         <main class="flex-1 p-6 relative overflow-x-auto overflow-y-auto">
@@ -115,15 +145,21 @@
     </div>
 
     <!-- TABEL DETAIL DATA -->
-        <div class="mt-6 bg-white p-6 shadow rounded-lg overflow-auto h-[calc(90vh-90px)]">
-        <div class="text-center mt-4">
-        @include('database.mastermdt', compact('data'))
+<div class="mt-6 bg-white p-6 shadow rounded-lg overflow-auto h-[calc(90vh-90px)]">
+    <div class="text-center mt-4">
+        @if($data->isEmpty())
+            <p class="text-gray-500">Tidak ada data yang ditemukan.</p>
+        @else
+            @include('database.mastermdt', compact('data'))
+        @endif
+        
         <button id="view-all-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg mx-auto block">View All</button>
-        </div>
+    </div>
 
-            <div id="hidden-data" class="hidden mt-4 overflow-auto">
-            </div>
-        </main>
+    <div id="hidden-data" class="hidden mt-4 overflow-auto">
+    </div>
+</div>
+
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -144,6 +180,49 @@
         document.getElementById('hidden-data').classList.toggle('hidden');
         this.style.display = 'none';
     });
+    
+document.getElementById('kecamatan').addEventListener('change', function() {
+    let kecamatan = this.value;
+    let desaDropdown = document.getElementById('desa');
+
+    desaDropdown.innerHTML = '<option value="">Semua Desa</option>'; // Reset opsi
+
+    if (kecamatan) {
+        fetch(`/get-desa?kecamatan=${kecamatan}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(desa => {
+                    let option = document.createElement('option');
+                    option.value = desa;
+                    option.textContent = desa;
+                    desaDropdown.appendChild(option);
+                });
+            });
+    }
+});
+
+$(document).ready(function() {
+    $('#kecamatan').change(function() {
+        var kecamatan = $(this).val();
+        $('#desa').html('<option value="">Loading...</option>'); // Indikator loading
+
+        $.ajax({
+            url: '/get-desa',
+            type: 'GET',
+            data: { kecamatan: kecamatan },
+            success: function(data) {
+                $('#desa').html('<option value="">Semua Desa</option>'); // Reset opsi
+                $.each(data, function(index, desa) {
+                    $('#desa').append('<option value="' + desa + '">' + desa + '</option>');
+                });
+            }
+        });
+    });
+});
+
+document.getElementById("apply-filter").addEventListener("click", function() {
+    document.getElementById("filter-form").submit();
+});
     </script>
 </body>
 </html>
