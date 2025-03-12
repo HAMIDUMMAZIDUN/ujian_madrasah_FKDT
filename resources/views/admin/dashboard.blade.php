@@ -29,27 +29,32 @@
             </div>
         </div>
 
+        <!--Filter-->
         <div class="border-t-4 border-gray-700 my-4"></div>
         <script src="{{ asset('js/filter.js') }}"></script>
 
-            <!-- Sidebar Menu -->
-            <nav class="space-y-2">
+                <!-- Sidebar Menu -->
+                <nav class="space-y-2">
 
-             <!-- Search Box -->
-            <div class="p-2">
-                <input type="text" id="searchBox" placeholder="Search..." class="w-full p-2 border rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
-            
-            <!-- Fitur Menu -->
-            <a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded">
-                <i data-lucide="layout-dashboard"></i>
-                <span x-show="sidebarOpen" class="ml-2">Dashboard</span>
-            </a>
+                <!-- Search Box -->
+                <div class="p-2">
+                    <input type="text" id="searchBox" placeholder="Search..." class="w-full p-2 border rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-400">
+                </div>
+                
+                <!-- Fitur Menu -->
+                <a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span x-show="sidebarOpen" class="ml-2">Dashboard</span>
+                </a>
 
-            <!-- FORM FILTER -->
-            <form method="GET" action="{{ route('admin.dashboard') }}" id="filter-form" class="p-4 bg-white rounded shadow">
-                <div class="mb-4">
-                    <label for="kecamatan" class="block text-black font-semibold">Pilih Kecamatan:</label>
+                <!-- FORM FILTER -->
+                <form method="GET" action="{{ route('admin.dashboard') }}" id="filter-form" class="p-4 bg-white rounded shadow">
+                    <div class="mb-4">
+                    <h1 class="block text-black font-bold">Filter Berdasarkan : </h1>
+                    <br>
+
+                <!--Pilih Kecamatan-->
+                    <label for="kecamatan" class="block text-black font-semibold">Pilih Kecamatan</label>
                     <select name="kecamatan" id="kecamatan" class="w-full p-2 text-black font-semibold border rounded">
                         <option value="">Semua Kecamatan</option>
                         @foreach($list_kecamatan as $kecamatan)
@@ -58,8 +63,9 @@
                     </select>
                 </div>
 
+                <!--Pilih Desa-->
                 <div class="mb-4">
-                    <label for="desa" class="block text-black font-semibold">Pilih Desa:</label>
+                    <label for="desa" class="block text-black font-semibold">Pilih Desa</label>
                     <select name="desa" id="desa" class="w-full p-2 text-black font-semibold border rounded">
                         <option value="">Semua Desa</option>
                     </select>
@@ -67,7 +73,7 @@
 
                 <!-- Button Filter -->
                 <button type="submit" class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">
-                    Filter
+                    Cari
                 </button>
             </form>
 
@@ -81,14 +87,15 @@
                     </div>
                     <i data-lucide="chevron-down" x-show="sidebarOpen"></i>
                 </a>
+
+            <!--Sub Menu-->
                 <div x-show="open" class="ml-6 space-y-1" x-collapse>
                     <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Profil Sekolah</a>
-                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Tahun Akademik</a>
-                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Buat Rombel Siswa Baru</a>
-                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Pendaftaran Ulang</a>
-                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Tambahkan Wali Kelas</a>
+                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Tambah Lembaga</a>
+                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Tambah Santri</a>
                 </div>
             </div>
+
             <!-- Data siswa -->
             <a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded">
                 <i data-lucide="users"></i>
@@ -105,6 +112,7 @@
 
         <!-- Main Content -->
         <main class="flex-1 p-6 relative overflow-x-auto overflow-y-auto">
+
             <!-- User Profile (Top Right) -->
             <div class="absolute top-0 right-0 m-4 flex items-center">
                 <span class="mr-2 font-semibold">{{ Auth::user()->name }}</span>
@@ -144,6 +152,14 @@
         </div>
     </div>
 
+    <!-- Button Download Excel -->
+     <br>
+    <div class="flex right mb-4">
+        <a href="{{ route('admin.downloadExcel') }}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+            Download Excel
+        </a>
+    </div>
+
     <!-- TABEL DETAIL DATA -->
 <div class="mt-6 bg-white p-6 shadow rounded-lg overflow-auto h-[calc(90vh-90px)]">
     <div class="text-center mt-4">
@@ -152,7 +168,8 @@
         @else
             @include('database.mastermdt', compact('data'))
         @endif
-        
+
+    <!--Button View All-->
         <button id="view-all-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg mx-auto block">View All</button>
     </div>
 
@@ -160,7 +177,7 @@
     </div>
 </div>
 
-
+<!--Script-->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             lucide.createIcons();

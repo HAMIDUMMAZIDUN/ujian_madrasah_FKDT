@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MasterMDT; 
 use Illuminate\Support\Facades\DB;
+use App\Exports\DataExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -70,4 +72,10 @@ class AdminController extends Controller
 
         return response()->json($desaList);
     }
-}
+    public function downloadExcel()
+    {
+        return Excel::download(new DataExport, 'data-detail.xlsx');
+    }
+
+    }
+

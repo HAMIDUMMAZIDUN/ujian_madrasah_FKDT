@@ -54,6 +54,8 @@ use Illuminate\Support\Facades\DB;
     Route::get('/filter-data', [DataController::class, 'filterData']);
     Route::get('/get-all-data', [DataController::class, 'getAllData']);
     Route::get('/get-desa', [AdminController::class, 'getDesaByKecamatan']);
+    Route::get('/admin/download-excel', [AdminController::class, 'downloadExcel'])->name('admin.downloadExcel');
+
 
 
 });
