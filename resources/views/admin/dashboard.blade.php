@@ -90,82 +90,63 @@
                     </button>
                 </form>
                 <div x-data="{ openModal: false, formHtml: '' }">
+                <!--tambah lembaga-->
+                <div x-data="{ openModal: false }">
+    <!-- Tombol untuk membuka modal -->
+    <a href="#" @click="openModal = true" 
+       class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rounded cursor-pointer">
+        <div class="flex items-center">
+            <i data-lucide="building"></i>
+            <span class="ml-2">Data Lembaga</span>
+        </div>
+        <i data-lucide="chevron-down"></i>
+    </a>
 
-                    <!-- Tombol untuk membuka modal -->
-                    <a href="#" @click="openModal = true" 
-                    class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rounded cursor-pointer">
-                        <div class="flex items-center">
-                            <i data-lucide="building"></i>
-                            <span class="ml-2">Data Lembaga</span>
-                        </div>
-                        <i data-lucide="chevron-down"></i>
-                    </a>
+    <!-- Popup Modal Tambah Lembaga -->
+    <div x-show="openModal" x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md" @click.away="openModal = false">
+            <h2 class="text-xl color-black font-semibold mb-4">Tambah Lembaga</h2>
 
-                    <!-- Popup Modal Tambah Lembaga -->
-                    <div x-show="openModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                            <h2 class="text-xl font-semibold mb-4">Tambah Lembaga</h2>
+            <!-- Form Tambah Lembaga -->      
+            <form action="{{ route('lembaga.store') }}" method="POST">
+                @csrf
+                <label class="text-black">Kode MDT:</label>
+                <input type="text" name="kode_mdt" required class="border p-2 rounded w-full">
+                
+                <label class="text-black">Nama Lembaga MDT:</label>
+                <input type="text" name="nama_lembaga_MDT" required class="border p-2 rounded w-full">
 
-                            <!-- Form Tambah Lembaga -->
-                            <form @submit.prevent="submitForm">
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">Kode MDT</label>
-                                    <input type="text" class="w-full px-3 py-2 border rounded-lg bg-gray-200" placeholder="Otomatis diisi" readonly>
-                                </div>
+                <label class="text-black">Alamat Madrasah:</label>
+                <input type="text" name="alamat_madrasah" required class="border p-2 rounded w-full">
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">Nama Lembaga MDT</label>
-                                    <input type="text" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" placeholder="Masukkan Nama Lembaga">
-                                </div>
+                <label class="text-black">RT:</label>
+                <input type="text" name="rt" class="border p-2 rounded w-full">
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">Alamat Madrasah</label>
-                                    <input type="text" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" placeholder="Masukkan Alamat Madrasah">
-                                </div>
+                <label class="text-black">RW:</label>
+                <input type="text" name="rw" class="border p-2 rounded w-full">
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">RT</label>
-                                    <input type="text" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" placeholder="Masukkan RT">
-                                </div>
+                <label class="text-black">Desa:</label>
+                <input type="text" name="desa" required class="border p-2 rounded w-full">
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">RW</label>
-                                    <input type="text" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" placeholder="Masukkan RW">
-                                </div>
+                <label class="text-black">Kecamatan:</label>
+                <input type="text" name="kecamatan" required class="border p-2 rounded w-full">
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">Desa</label>
-                                    <input type="text" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" placeholder="Masukkan Desa">
-                                </div>
+                <label class="text-black">NSDT:</label>
+                <input type="text" name="nsdt" class="border p-2 rounded w-full">
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">Kecamatan</label>
-                                    <input type="text" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" placeholder="Masukkan Kecamatan">
-                                </div>
+                <label class="text-black">No HP:</label>
+                <input type="text" name="no_hp" required class="border p-2 rounded w-full">
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">NSDT</label>
-                                    <input type="text" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" placeholder="Masukkan NSDT">
-                                </div>
+                <label class="text-black">Nama Kepala MDT:</label>
+                <input type="text" name="nama_kepala_MDT" required class="border p-2 rounded w-full">
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">No HP</label>
-                                    <input type="text" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" placeholder="Masukkan No HP">
-                                </div>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-3">Simpan</button>
+            </form>
 
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700">Nama Kepala MDT</label>
-                                    <input type="text" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" placeholder="Masukkan Nama Kepala MDT">
-                                </div>
-                            </form>
+                    </div>
+                </div>
+            </div>
 
-                                <!-- Tombol Simpan -->
-                                <div class="flex justify-end space-x-2">
-                                    <button type="button" @click="openModal = false" class="px-4 py-2 bg-gray-500 text-white rounded-lg">Batal</button>
-                                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Simpan</button>
-                                </div>
-                            </form>
-                        </div>
                         </nav>
                         </aside>
        
@@ -249,118 +230,143 @@
     </div>
 </div>
 
-<!--Script-->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            lucide.createIcons();
+<!--Script--><script>
+    document.addEventListener("DOMContentLoaded", () => {
+        lucide.createIcons();
 
-            document.getElementById('user-menu-button').addEventListener('click', function () {
-                document.getElementById('user-menu').classList.toggle('hidden');
-            });
+        // Toggle menu pengguna
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenu = document.getElementById('user-menu');
 
-            document.addEventListener('click', function(event) {
-                const menu = document.getElementById('user-menu');
-                if (!document.getElementById('user-menu-button').contains(event.target) && !menu.contains(event.target)) {
-                    menu.classList.add('hidden');
-                }
-            });
+        userMenuButton.addEventListener('click', () => {
+            userMenu.classList.toggle('hidden');
         });
-        document.getElementById('view-all-btn').addEventListener('click', function() {
-        document.getElementById('hidden-data').classList.toggle('hidden');
-        this.style.display = 'none';
-    });
 
-document.getElementById('kecamatan').addEventListener('change', function() {
-    let kecamatan = this.value;
-    let desaDropdown = document.getElementById('desa');
-
-    desaDropdown.innerHTML = '<option value="">Semua Desa</option>'; // Reset opsi
-
-    if (kecamatan) {
-        fetch(`/get-desa?kecamatan=${kecamatan}`)
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(desa => {
-                    let option = document.createElement('option');
-                    option.value = desa;
-                    option.textContent = desa;
-                    desaDropdown.appendChild(option);
-                });
-            });
-    }
-});
-
-$(document).ready(function() {
-    $('#kecamatan').change(function() {
-        var kecamatan = $(this).val();
-        $('#desa').html('<option value="">Loading...</option>'); // Indikator loading
-
-        $.ajax({
-            url: '/get-desa',
-            type: 'GET',
-            data: { kecamatan: kecamatan },
-            success: function(data) {
-                $('#desa').html('<option value="">Semua Desa</option>'); // Reset opsi
-                $.each(data, function(index, desa) {
-                    $('#desa').append('<option value="' + desa + '">' + desa + '</option>');
-                });
+        document.addEventListener('click', (event) => {
+            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
             }
         });
-    });
-});
 
-document.addEventListener("DOMContentLoaded", function () {
+        // Tampilkan data tersembunyi
+        const viewAllButton = document.getElementById('view-all-btn');
+        if (viewAllButton) {
+            viewAllButton.addEventListener('click', function () {
+                document.getElementById('hidden-data').classList.toggle('hidden');
+                this.style.display = 'none';
+            });
+        }
+
+        // Event listener perubahan pada select kecamatan
+        const kecamatanSelect = document.getElementById('kecamatan');
+        const desaSelect = document.getElementById('desa');
+
+        if (kecamatanSelect && desaSelect) {
+            kecamatanSelect.addEventListener('change', function () {
+                fetchDesa(this.value, desaSelect);
+            });
+        }
+
+        // Event listener perubahan warna pada select
         const selects = document.querySelectorAll("select");
-        const cariButton = document.getElementById("cari-btn");
-
         selects.forEach(select => {
             select.addEventListener("change", function () {
-                if (this.value !== "") {
-                    this.classList.remove("bg-red-500");
-                    this.classList.add("bg-green-500");
-                } else {
-                    this.classList.remove("bg-green-500");
-                    this.classList.add("bg-red-500");
+                this.classList.toggle("bg-green-500", this.value !== "");
+                this.classList.toggle("bg-red-500", this.value === "");
+            });
+        });
+
+        // Perubahan warna saat filter dikirim
+        const filterForm = document.getElementById("filter-form");
+        if (filterForm) {
+            filterForm.addEventListener("submit", function () {
+                selects.forEach(select => {
+                    select.classList.remove("bg-red-500");
+                    select.classList.add("bg-green-500");
+                });
+            });
+        }
+    });
+
+    // Fungsi untuk mengambil daftar desa berdasarkan kecamatan
+    function fetchDesa(kecamatan, desaDropdown) {
+        desaDropdown.innerHTML = '<option value="">Semua Desa</option>';
+
+        if (kecamatan) {
+            fetch(`/get-desa?kecamatan=${encodeURIComponent(kecamatan)}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(desa => {
+                        let option = document.createElement('option');
+                        option.value = desa;
+                        option.textContent = desa;
+                        desaDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    }
+
+    // jQuery untuk pengambilan desa
+    $(document).ready(function () {
+        $('#kecamatan').change(function () {
+            var kecamatan = $(this).val();
+            $('#desa').html('<option>Loading...</option>');
+
+            $.ajax({
+                url: '/get-desa',
+                type: 'GET',
+                data: { kecamatan: kecamatan },
+                success: function (data) {
+                    $('#desa').html('<option value="">Semua Desa</option>');
+                    $.each(data, function (index, desa) {
+                        $('#desa').append('<option value="' + desa + '">' + desa + '</option>');
+                    });
                 }
             });
         });
-
-        document.getElementById("filter-form").addEventListener("submit", function () {
-            selects.forEach(select => {
-                select.classList.remove("bg-red-500");
-                select.classList.add("bg-green-500");
-            });
-        });
     });
-    function submitForm() {
-    let formData = {
-        kecamatan: document.querySelector('[placeholder="Masukkan Kecamatan"]').value,
-        desa: document.querySelector('[placeholder="Masukkan Desa"]').value,
-        kode_mdt: document.querySelector('[placeholder="Otomatis diisi"]').value,
-        nama_lembaga: document.querySelector('[placeholder="Masukkan Nama Lembaga"]').value,
-    };
 
-    fetch("{{ route('admin.simpan_lembaga') }}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        body: JSON.stringify(formData)
-    }).then(response => response.json())
-      .then(data => {
-          alert("Data berhasil ditambahkan!");
-          openModal = false; // Tutup modal setelah sukses
-      }).catch(error => console.error("Gagal:", error));
+    // Alpine.js untuk modal tambah lembaga
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('tambahLembaga', () => ({
+            openModal: false,
+            form: {
+                kode_mdt: 'MDT' + Date.now(),
+                nama_lembaga_MDT: '',
+                alamat_madrasah: '',
+                rt: '',
+                rw: '',
+                desa: '',
+                kecamatan: '',
+                nsdt: '',
+                no_hp: '',
+                nama_kepala_MDT: '',
+            },
+            get isFormValid() {
+                return this.form.nama_lembaga_MDT && this.form.alamat_madrasah && this.form.desa && this.form.kecamatan;
+            },
+            async submitForm() {
+                try {
+                    let response = await fetch("{{ route('admin.store') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify(this.form)
+                    });
 
-        function fetchForm() {
-        fetch("{{ route('lembaga.create') }}")
-            .then(response => response.text())
-            .then(html => {
-                document.querySelector('[x-html="formHtml"]').innerHTML = html;
-            });
-    }
-}
-    </script>
+                    let data = await response.json();
+                    alert(data.message);
+                    this.openModal = false;
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+        }));
+    });
+</script>
+
 </body>
 </html>

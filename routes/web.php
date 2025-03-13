@@ -35,20 +35,14 @@ use App\Http\Controllers\LembagaController;
     return $user->role === 'admin' ? redirect()->route('admin.dashboard') : redirect()->route('user.dashboard');
     })->middleware('auth')->name('dashboard');
 
-    // Route untuk User dan Admin
+    // Route 
     Route::middleware(['auth'])->group(function () {
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-
-    // Route untuk mengelola profil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // Route CRUD otomatis untuk ujian
     Route::resource('/ujian', UjianController::class);
-
-    // Route filter
     Route::get('/get-kecamatan', [DataController::class, 'getKecamatan']);
     Route::get('/get-desa/{kecamatan_id}', [DataController::class, 'getDesa']);
     Route::get('/get-lembaga/{desa_id}', [DataController::class, 'getLembaga']);
@@ -63,12 +57,14 @@ use App\Http\Controllers\LembagaController;
     Route::post('/simpan-kecamatan', [LembagaController::class, 'simpanKecamatan']);
     Route::post('/simpan-desa', [LembagaController::class, 'simpanDesa']);
     Route::get('/get-last-mdt', [LembagaController::class, 'getLastMDT']);
-    // Route untuk menampilkan form tambah lembaga
     Route::get('/lembaga/tambah', [LembagaController::class, 'create'])->name('lembaga.create');
-
-    // Route untuk menyimpan data lembaga
     Route::post('/lembaga/store', [LembagaController::class, 'store'])->name('lembaga.store');
-
+    Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
+    Route::get('/edit/{id}', [LembagaController::class, 'edit'])->name('edit');
+    Route::delete('/delete/{id}', [LembagaController::class, 'destroy'])->name('delete');
+    Route::put('/update/{id}', [LembagaController::class, 'update'])->name('update');
+    
+Route::get('/admin/get-desa', [AdminController::class, 'getDesaByKecamatan'])->name('admin.getDesaByKecamatan');
 });
 
     // Route untuk logout menggunakan controller

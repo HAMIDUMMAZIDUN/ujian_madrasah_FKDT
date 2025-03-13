@@ -19,13 +19,24 @@ class AdminController extends Controller
             ->orderBy('kecamatan')
             ->pluck('kecamatan');
 
+        // Ambil daftar desa berdasarkan kecamatan yang dipilih
+        $list_desa = collect(); // Default kosong
+        if ($request->has('kecamatan') && $request->kecamatan != '') {
+            $list_desa = DB::table('master_mdt')
+                ->where('kecamatan', $request->kecamatan)
+                ->select('desa')
+                ->distinct()
+                ->orderBy('desa')
+                ->pluck('desa');
+        }
+
         // Query untuk filter kode_mdt yang relevan
         $queryKodeMDT = DB::table('master_mdt')->select('kode_mdt')->distinct();
-        
+
         if ($request->has('kecamatan') && $request->kecamatan != '') {
             $queryKodeMDT->where('kecamatan', $request->kecamatan);
         }
-        
+
         if ($request->has('desa') && $request->desa != '') {
             $queryKodeMDT->where('desa', $request->desa);
         }
@@ -69,7 +80,8 @@ class AdminController extends Controller
 
         // Hitung jumlah santri berdasarkan filter
         $jumlah_santri = DB::table('master_mdt')
-            ->whereNotNull('nama_santri')->count();
+            ->whereNotNull('nama_santri')
+            ->count();
 
         // Return ke view
         return view('admin.dashboard', compact(
@@ -82,21 +94,51 @@ class AdminController extends Controller
             'list_kode_mdt'
         ));
     }
-
     public function getDesaByKecamatan(Request $request)
     {
-        $desaList = DB::table('master_mdt')
+        $list_desa = DB::table('master_mdt')
             ->where('kecamatan', $request->kecamatan)
             ->select('desa')
             ->distinct()
             ->orderBy('desa')
             ->pluck('desa');
-
-        return response()->json($desaList);
+    
+        return response()->json($list_desa);
     }
-
+    
     public function downloadExcel()
     {
         return Excel::download(new DataExport, 'data-detail.xlsx');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'kode_mdt' => 'required|unique:master_mdt,kode_mdt',
+            'nama_lembaga_MDT' => 'required',
+            'alamat_madrasah' => 'required',
+            'rt' => 'nullable',
+            'rw' => 'nullable',
+            'desa' => 'required',
+            'kecamatan' => 'required',
+            'nsdt' => 'nullable',
+            'no_hp' => 'nullable',
+            'nama_kepala_MDT' => 'nullable',
+        ]);
+
+        MasterMDT::create([
+            'kode_mdt' => $request->kode_mdt,
+            'nama_lembaga_MDT' => $request->nama_lembaga_MDT,
+            'alamat_madrasah' => $request->alamat_madrasah,
+            'rt' => $request->rt,
+            'rw' => $request->rw,
+            'desa' => $request->desa,
+            'kecamatan' => $request->kecamatan,
+            'nsdt' => $request->nsdt,
+            'no_hp' => $request->no_hp,
+            'nama_kepala_MDT' => $request->nama_kepala_MDT,
+        ]);
+
+        return response()->json(['message' => 'Data berhasil disimpan']);
     }
 }
