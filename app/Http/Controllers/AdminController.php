@@ -10,6 +10,13 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
+    public function search(Request $request)
+    {
+        $query = $request->get('q');
+        $santri = Santri::where('nama', 'LIKE', "%{$query}%")->get();
+        return response()->json($santri);
+    }
+
     public function index(Request $request)
     {
         // Ambil daftar kecamatan unik dari database

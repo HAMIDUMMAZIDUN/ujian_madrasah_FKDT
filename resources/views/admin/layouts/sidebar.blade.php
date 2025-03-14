@@ -4,12 +4,6 @@
 
 <!-- Sidebar Menu -->
 <nav class="space-y-2">
-    <!-- Search Box -->
-    <div class="p-2">
-        <input type="text" id="searchBox" placeholder="Search..."
-            class="w-full p-2 border rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-400">
-    </div>
-
     <!-- Fitur Menu -->
     <a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded">
         <i data-lucide="layout-dashboard"></i>
@@ -54,3 +48,7 @@
         <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">Terapkan Filter</button>
     </form>
 </nav>
+
+
+    
+

@@ -161,4 +161,32 @@
         document.getElementById("export-desa").value = document.getElementById("desa").value;
         document.getElementById("export-kode_mdt").value = document.getElementById("kode_mdt").value;
     });
+    document.getElementById('searchBox').addEventListener('input', function () {
+        let query = this.value;
+        let resultsBox = document.getElementById('searchResults');
+        if (query.length > 2) {
+            fetch(`{{ route('search.santri') }}?q=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultsBox.innerHTML = '';
+                    if (data.length > 0) {
+                        resultsBox.classList.remove('hidden');
+                        data.forEach(santri => {
+                            let li = document.createElement('li');
+                            li.textContent = santri.nama;
+                            li.classList.add('p-2', 'hover:bg-gray-200', 'cursor-pointer');
+                            li.addEventListener('click', function () {
+                                document.getElementById('searchBox').value = santri.nama;
+                                resultsBox.classList.add('hidden');
+                            });
+                            resultsBox.appendChild(li);
+                        });
+                    } else {
+                        resultsBox.classList.add('hidden');
+                    }
+                });
+        } else {
+            resultsBox.classList.add('hidden');
+        }
+    });
 </script>

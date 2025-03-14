@@ -68,6 +68,8 @@ use App\Http\Controllers\ExportController;
     Route::get('/download-template', [ImportController::class, 'downloadTemplate'])->name('download.template');
     Route::post('/import-excel', [ImportController::class, 'importExcel'])->name('import.excel');
     Route::get('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
+    Route::get('/search/santri', [AdminController::class, 'search'])->name('search.santri');
+
 });
 
     // Route untuk logout menggunakan controller
