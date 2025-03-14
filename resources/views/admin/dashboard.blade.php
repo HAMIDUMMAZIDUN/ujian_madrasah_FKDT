@@ -10,6 +10,8 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
     <style>
         [x-cloak] { display: none !important; }
@@ -49,106 +51,121 @@
                     <span x-show="sidebarOpen" class="ml-2">Dashboard</span>
                 </a>
 
-                <!-- FORM FILTER -->
-                <form method="GET" action="{{ route('admin.dashboard') }}" id="filter-form" class="p-4 bg-white rounded shadow">
-                    <div class="mb-4">
-                        <h1 class="block text-black font-bold">Filter Berdasarkan : </h1>
-                        <br>
+               <!-- FORM FILTER -->
+<form method="GET" action="{{ route('admin.dashboard') }}" id="filter-form" class="p-4 bg-white rounded shadow">
+    <div class="mb-4">
+        <h1 class="block text-black font-bold">Filter Berdasarkan:</h1>
+        <br>
 
-                        <!-- Pilih Kecamatan -->
-                        <label for="kecamatan" class="block text-black font-semibold">Pilih Kecamatan</label>
-                        <select name="kecamatan" id="kecamatan" class="w-full p-2 text-white font-semibold border rounded bg-red-500">
-                            <option value="">Semua Kecamatan</option>
-                            @foreach($list_kecamatan as $kecamatan)
-                                <option value="{{ $kecamatan }}">{{ $kecamatan }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+        <!-- Pilih Kecamatan -->
+        <label for="kecamatan" class="block text-black font-semibold">Pilih Kecamatan</label>
+        <select name="kecamatan" id="kecamatan" class="w-full p-2 text-white font-semibold border rounded bg-red-500">
+            <option value="">Semua Kecamatan</option>
+            @foreach($list_kecamatan as $kecamatan)
+                <option value="{{ $kecamatan }}">{{ $kecamatan }}</option>
+            @endforeach
+        </select>
+    </div>
 
-                    <!-- Pilih Desa -->
-                    <div class="mb-4">
-                        <label for="desa" class="block text-black font-semibold">Pilih Desa</label>
-                        <select name="desa" id="desa" class="w-full p-2 text-white font-semibold border rounded bg-red-500">
-                            <option value="">Semua Desa</option>
-                        </select>
-                    </div>
+    <!-- Pilih Desa -->
+    <div class="mb-4">
+        <label for="desa" class="block text-black font-semibold">Pilih Desa</label>
+        <select name="desa" id="desa" class="w-full p-2 text-white font-semibold border rounded bg-red-500">
+            <option value="">Semua Desa</option>
+        </select>
+    </div>
 
-                    <!-- Pilih Kode MDT -->
-                    <div class="mb-4">
-                        <label for="kode_mdt" class="block text-black font-semibold">Pilih Kode MDT</label>
-                        <select name="kode_mdt" id="kode_mdt" class="w-full p-2 text-white font-semibold border rounded bg-red-500">
-                            <option value="">Semua Kode MDT</option>
-                            @foreach($list_kode_mdt as $kode)
-                                <option value="{{ $kode }}">{{ $kode }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+    <!-- Pilih Kode MDT -->
+    <div class="mb-4">
+        <label for="kode_mdt" class="block text-black font-semibold">Pilih Kode MDT</label>
+        <select name="kode_mdt" id="kode_mdt" class="w-full p-2 text-white font-semibold border rounded bg-red-500">
+            <option value="">Semua Kode MDT</option>
+            @foreach($list_kode_mdt as $kode)
+                <option value="{{ $kode }}">{{ $kode }}</option>
+            @endforeach
+        </select>
+    </div>
 
-                    <!-- Button Filter -->
-                    <button type="submit" id="cari-btn" class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">
-                        Cari
-                    </button>
-                </form>
+    <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">Terapkan Filter</button>
+</form>
                 <div x-data="{ openModal: false, formHtml: '' }">
                 <!--tambah lembaga-->
                 <div x-data="{ openModal: false }">
-    <!-- Tombol untuk membuka modal -->
-    <a href="#" @click="openModal = true" 
-       class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rounded cursor-pointer">
-        <div class="flex items-center">
-            <i data-lucide="building"></i>
-            <span class="ml-2">Data Lembaga</span>
-        </div>
-        <i data-lucide="chevron-down"></i>
-    </a>
 
-    <!-- Popup Modal Tambah Lembaga -->
-    <div x-show="openModal" x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md" @click.away="openModal = false">
-            <h2 class="text-xl color-black font-semibold mb-4">Tambah Lembaga</h2>
+                            <!-- Tombol untuk membuka modal -->
+                            <a href="#" @click="openModal = true" 
+                            class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rounded cursor-pointer">
+                                <div class="flex items-center">
+                                    <i data-lucide="building"></i>
+                                    <span class="ml-2">Tambah Data</span>
+                                </div>
+                                <i data-lucide="chevron-down"></i>
+                            </a>
 
-            <!-- Form Tambah Lembaga -->      
-            <form action="{{ route('lembaga.store') }}" method="POST">
-                @csrf
-                <label class="text-black">Kode MDT:</label>
-                <input type="text" name="kode_mdt" required class="border p-2 rounded w-full">
-                
-                <label class="text-black">Nama Lembaga MDT:</label>
-                <input type="text" name="nama_lembaga_MDT" required class="border p-2 rounded w-full">
+                            <!-- Popup Modal Tambah Lembaga -->
+                            <div x-show="openModal" x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-5xl h-[90vh] overflow-y-auto" @click.away="openModal = false">
+                                <h2 class="text-2xl text-black font-semibold mb-4 text-center">Tambah Data</h2>
 
-                <label class="text-black">Alamat Madrasah:</label>
-                <input type="text" name="alamat_madrasah" required class="border p-2 rounded w-full">
-
-                <label class="text-black">RT:</label>
-                <input type="text" name="rt" class="border p-2 rounded w-full">
-
-                <label class="text-black">RW:</label>
-                <input type="text" name="rw" class="border p-2 rounded w-full">
-
-                <label class="text-black">Desa:</label>
-                <input type="text" name="desa" required class="border p-2 rounded w-full">
-
-                <label class="text-black">Kecamatan:</label>
-                <input type="text" name="kecamatan" required class="border p-2 rounded w-full">
-
-                <label class="text-black">NSDT:</label>
-                <input type="text" name="nsdt" class="border p-2 rounded w-full">
-
-                <label class="text-black">No HP:</label>
-                <input type="text" name="no_hp" required class="border p-2 rounded w-full">
-
-                <label class="text-black">Nama Kepala MDT:</label>
-                <input type="text" name="nama_kepala_MDT" required class="border p-2 rounded w-full">
-
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-3">Simpan</button>
-            </form>
+                                <!-- Form Tambah Lembaga -->
+                                <form action="{{ route('lembaga.store') }}" method="POST">
+                                    @csrf
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <div>
+                                            <label class="text-black">Kode MDT:</label>
+                                            <input type="text" name="kode_mdt" required class="border p-2 rounded w-full">
+                                        </div>
+                                        <div>
+                                            <label class="text-black">Nama Lembaga MDT:</label>
+                                            <input type="text" name="nama_lembaga_MDT" required class="border p-2 rounded w-full">
+                                        </div>
+                                        <div>
+                                            <label class="text-black">Alamat Madrasah:</label>
+                                            <input type="text" name="alamat_madrasah" required class="border p-2 rounded w-full">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-3 gap-4 mt-4">
+                                        <div>
+                                            <label class="text-black">RT:</label>
+                                            <input type="text" name="rt" class="border p-2 rounded w-full">
+                                        </div>
+                                        <div>
+                                            <label class="text-black">RW:</label>
+                                            <input type="text" name="rw" class="border p-2 rounded w-full">
+                                        </div>
+                                        <div>
+                                            <label class="text-black">Desa:</label>
+                                            <input type="text" name="desa" required class="border p-2 rounded w-full">
+                                        </div>
+                                        <div>
+                                            <label class="text-black">Kecamatan:</label>
+                                            <input type="text" name="kecamatan" required class="border p-2 rounded w-full">
+                                        </div>
+                                        <div>
+                                            <label class="text-black">NSDT:</label>
+                                            <input type="text" name="nsdt" class="border p-2 rounded w-full">
+                                        </div>
+                                        <div>
+                                            <label class="text-black">No HP:</label>
+                                            <input type="text" name="no_hp" required class="border p-2 rounded w-full">
+                                        </div>
+                                        <div>
+                                            <label class="text-black">Nama Kepala MDT:</label>
+                                            <input type="text" name="nama_kepala_MDT" required class="border p-2 rounded w-full">
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded text-lg">Simpan</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
-            </div>
-
-                        </nav>
-                        </aside>
+            </nav>
+        </aside>
        
         <!-- Main Content -->
         <main class="flex-1 p-6 relative overflow-x-auto overflow-y-auto">
@@ -204,14 +221,51 @@
         </div>
     </div>
 
+            <!-- Button Download Excel & Import -->
+<br>
+<div class="container-fluid">
+    <div class="d-flex align-items-center gap-2 mb-3">
+        
+        <!-- Tombol Download Excel -->
+        <form method="GET" id="export-form" action="{{ route('export.excel') }}">
+            <input type="hidden" name="kecamatan" id="export-kecamatan">
+            <input type="hidden" name="desa" id="export-desa">
+            <input type="hidden" name="kode_mdt" id="export-kode_mdt"> 
+            <button type="submit" class="bg-green-500 text-white font-bold py-2 px-3 rounded">
+                Download Excel
+            </button>
+        </form>
 
-    <!-- Button Download Excel -->
-     <br>
-    <div class="flex right mb-4">
-        <a href="{{ route('admin.downloadExcel') }}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-            Download Excel
-        </a>
+        <!-- Button Import -->
+        <div class="dropdown">
+            <button class="btn text-white fw-bold px-4 py-2" type="button" id="importDropdown"
+                onclick="toggleImportDropdown()"
+                style="background: #007bff; border: none; border-radius: 8px;">
+                Import
+            </button>
+
+            <div id="importMenu" class="dropdown-menu p-3 shadow text-center"
+                style="border-radius: 10px; min-width: 250px; display: none;">
+                
+                <!-- Button Download Template -->
+                <button class="btn btn-primary w-100 mb-2 fw-bold" onclick="window.location.href='{{ route('download.template') }}'">
+                    Download Template
+                </button>
+
+                <!-- Form Upload File -->
+                <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="file" class="form-control mb-2" required>
+                    <button type="submit" class="btn text-white fw-bold w-100 py-2"
+                        style="background: linear-gradient(90deg, #28a745 0%, #218838 100%);
+                        border: none; border-radius: 6px;">
+                        Upload File
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 
     <!-- TABEL DETAIL DATA -->
 <div class="mt-6 bg-white p-6 shadow rounded-lg overflow-auto h-[calc(90vh-90px)]">
@@ -221,10 +275,6 @@
         @else
             @include('database.mastermdt', compact('data'))
         @endif
-
-    <!--Button View All-->
-        <button id="view-all-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg mx-auto block">View All</button>
-    </div>
 
     <div id="hidden-data" class="hidden mt-4 overflow-auto">
     </div>
@@ -365,6 +415,32 @@
                 }
             }
         }));
+    });
+    function toggleImportDropdown() {
+        var menu = document.getElementById("importMenu");
+        menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", function(event) {
+        var dropdown = document.getElementById("importMenu");
+        var button = document.getElementById("importDropdown");
+        if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.style.display = "none";
+        }
+    });
+      // Update form download dengan filter yang dipilih
+      document.getElementById("filter-form").addEventListener("change", function() {
+        document.getElementById("export-kecamatan").value = document.getElementById("kecamatan").value;
+        document.getElementById("export-desa").value = document.getElementById("desa").value;
+        document.getElementById("export-kode_mdt").value = document.getElementById("kode_mdt").value;
+    });
+
+    // Update nilai filter ke form export saat halaman dimuat ulang
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("export-kecamatan").value = document.getElementById("kecamatan").value;
+        document.getElementById("export-desa").value = document.getElementById("desa").value;
+        document.getElementById("export-kode_mdt").value = document.getElementById("kode_mdt").value;
     });
 </script>
 

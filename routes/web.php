@@ -14,7 +14,8 @@ use App\Http\Controllers\DataController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\LembagaController;
-
+use App\Http\Controllers\ImportController;
+use App\Http\Controllers\ExportController;
 
     // Route untuk halaman utama
     Route::get('/', function () {
@@ -63,8 +64,10 @@ use App\Http\Controllers\LembagaController;
     Route::get('/edit/{id}', [LembagaController::class, 'edit'])->name('edit');
     Route::delete('/delete/{id}', [LembagaController::class, 'destroy'])->name('delete');
     Route::put('/update/{id}', [LembagaController::class, 'update'])->name('update');
-    
-Route::get('/admin/get-desa', [AdminController::class, 'getDesaByKecamatan'])->name('admin.getDesaByKecamatan');
+    Route::get('/admin/get-desa', [AdminController::class, 'getDesaByKecamatan'])->name('admin.getDesaByKecamatan');
+    Route::get('/download-template', [ImportController::class, 'downloadTemplate'])->name('download.template');
+    Route::post('/import-excel', [ImportController::class, 'importExcel'])->name('import.excel');
+    Route::get('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
 });
 
     // Route untuk logout menggunakan controller
