@@ -8,6 +8,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
     <style>
         [x-cloak] { display: none !important; }
     </style>
@@ -16,133 +21,192 @@
 <div x-data="{ sidebarOpen: true }" class="flex">
     <!-- Sidebar -->
     <aside :class="sidebarOpen ? 'w-64' : 'w-16'" class="h-screen bg-gray-900 text-gray-200 p-4 shadow-md transition-all duration-300 relative">
+       
         <!-- Header Sidebar -->
-        <div class="flex items-center">
-            <button @click="sidebarOpen = !sidebarOpen" class="p-2 text-gray-400 hover:bg-gray-700 rounded">
-                <i data-lucide="menu"></i>
-            </button>
+            <div class="flex items-center">
+                <button @click="sidebarOpen = !sidebarOpen" class="p-2 text-gray-400 hover:bg-gray-700 rounded">
+                    <i data-lucide="menu"></i>
+                </button>
 
-            <div class="flex items-center ml-4" x-show="sidebarOpen" x-cloak>
-                <img src="{{ asset('images/FKDT.png') }}" alt="FKDT Logo" class="w-10 h-10">
-                <span class="ml-2 font-semibold text-white">PDUMDT</span>
-            </div>
-        </div>
-
-        <div class="border-t-4 border-gray-700 my-4"></div>
-
-            <!-- Sidebar Menu -->
-            <nav class="space-y-2">
-
-             <!-- Search Box -->
-            <div class="p-2">
-                <input type="text" id="searchBox" placeholder="Search..." class="w-full p-2 border rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
-            
-            <!-- Fitur Menu -->
-            <a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded">
-                <i data-lucide="layout-dashboard"></i>
-                <span x-show="sidebarOpen" class="ml-2">Dashboard</span>
-            </a>
-            
-            <!-- Data Lembaga dengan Submenu -->
-            <div x-data="{ open: false }">
-                <a href="#" @click="open = !open" class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rounded cursor-pointer">
-                    <div class="flex items-center">
-                        <i data-lucide="building"></i>
-                        <span x-show="sidebarOpen" class="ml-2">Data Lembaga</span>
-                    </div>
-                    <i data-lucide="chevron-down" x-show="sidebarOpen"></i>
-                </a>
-                <div x-show="open" class="ml-6 space-y-1" x-collapse>
-                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Profil Sekolah</a>
-                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Tahun Akademik</a>
-                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Buat Rombel Siswa Baru</a>
-                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Pendaftaran Ulang</a>
-                    <a href="#" class="block p-2 text-gray-300 hover:bg-gray-700 rounded">Tambahkan Wali Kelas</a>
+                <div class="flex items-center ml-4" x-show="sidebarOpen" x-cloak>
+                    <img src="{{ asset('images/FKDT.png') }}" alt="FKDT Logo" class="w-10 h-10">
+                    <span class="ml-2 font-semibold text-white">PDUMDT</span>
                 </div>
             </div>
-            <!-- Data siswa -->
-            <a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded">
-                <i data-lucide="users"></i>
-                <span x-show="sidebarOpen" class="ml-2">Data Siswa</span>
-            </a>
-            <a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded">
-                <i data-lucide="clipboard-list"></i>
-                <span x-show="sidebarOpen" class="ml-2">Ujian Siswa</span>
-            </a>
-        </nav>
-        </aside>
+        
+        <!--sidebar-->
+        @include('admin.layouts.sidebar')
+        <div x-data="{ openModal: false, formHtml: '' }">
 
+        <!--tambahData-->
+        @include('admin.layouts.tambahdata')
+       
         <!-- Main Content -->
-<main class="flex-1 p-6 relative overflow-x-auto overflow-y-auto">
-    <!-- User Profile (Top Right) -->
-    <div class="absolute top-0 right-0 m-4 flex items-center">
-        <span class="mr-2 font-semibold">{{ Auth::user()->name }}</span>
-        <div class="relative">
-            <button id="user-menu-button" class="flex items-center space-x-2 p-2 bg-gray-200 rounded-full focus:outline-none">
-                <img src="{{ file_exists(public_path('images/' . Auth::user()->name . '.jpg')) ? asset('images/' . Auth::user()->name . '.png') : asset('images/default.png') }}" 
-                    alt="User" class="w-8 h-8 rounded-full">
-            </button>
-            <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
-                <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Ubah Password</a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
-                </form>
-            </div>
-        </div>
-    </div>
+        @include('admin.layouts.maincontent')
 
-    <!-- Statistik -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
-        <div class="p-4 bg-white shadow rounded-lg text-center">
-            <h2 class="text-xl font-semibold">Jumlah Lembaga</h2>
-            <p class="text-2xl font-bold">{{ $jumlah_lembaga }}</p>
-        </div>
-        <div class="p-4 bg-white shadow rounded-lg text-center">
-            <h2 class="text-xl font-semibold">Jumlah Santri</h2>
-            <p class="text-2xl font-bold">{{ $jumlah_santri }}</p>
-        </div>
-        <div class="p-4 bg-white shadow rounded-lg text-center">
-            <h2 class="text-xl font-semibold">Jumlah Desa</h2>
-            <p class="text-2xl font-bold">{{ $jumlah_desa }}</p>
-        </div>
-        <div class="p-4 bg-white shadow rounded-lg text-center">
-            <h2 class="text-xl font-semibold">Jumlah Kecamatan</h2>
-            <p class="text-2xl font-bold">{{ $jumlah_kecamatan }}</p>
-        </div>
-    </div>
+<!--Script--><script>
+    document.addEventListener("DOMContentLoaded", () => {
+        lucide.createIcons();
 
-    <!-- TABEL DETAIL DATA -->
-        <div class="mt-6 bg-white p-6 shadow rounded-lg overflow-auto h-[calc(90vh-90px)]">
-        <div class="text-center mt-4">
-        @include('database.mastermdt', compact('data'))
-        <button id="view-all-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg mx-auto block">View All</button>
-        </div>
+        // Toggle menu pengguna
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenu = document.getElementById('user-menu');
 
-            <div id="hidden-data" class="hidden mt-4 overflow-auto">
-            </div>
-        </main>
+        userMenuButton.addEventListener('click', () => {
+            userMenu.classList.toggle('hidden');
+        });
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            lucide.createIcons();
+        document.addEventListener('click', (event) => {
+            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
 
-            document.getElementById('user-menu-button').addEventListener('click', function () {
-                document.getElementById('user-menu').classList.toggle('hidden');
+        // Tampilkan data tersembunyi
+        const viewAllButton = document.getElementById('view-all-btn');
+        if (viewAllButton) {
+            viewAllButton.addEventListener('click', function () {
+                document.getElementById('hidden-data').classList.toggle('hidden');
+                this.style.display = 'none';
             });
+        }
 
-            document.addEventListener('click', function(event) {
-                const menu = document.getElementById('user-menu');
-                if (!document.getElementById('user-menu-button').contains(event.target) && !menu.contains(event.target)) {
-                    menu.classList.add('hidden');
+        // Event listener perubahan pada select kecamatan
+        const kecamatanSelect = document.getElementById('kecamatan');
+        const desaSelect = document.getElementById('desa');
+
+        if (kecamatanSelect && desaSelect) {
+            kecamatanSelect.addEventListener('change', function () {
+                fetchDesa(this.value, desaSelect);
+            });
+        }
+
+        // Event listener perubahan warna pada select
+        const selects = document.querySelectorAll("select");
+        selects.forEach(select => {
+            select.addEventListener("change", function () {
+                this.classList.toggle("bg-green-500", this.value !== "");
+                this.classList.toggle("bg-red-500", this.value === "");
+            });
+        });
+
+        // Perubahan warna saat filter dikirim
+        const filterForm = document.getElementById("filter-form");
+        if (filterForm) {
+            filterForm.addEventListener("submit", function () {
+                selects.forEach(select => {
+                    select.classList.remove("bg-red-500");
+                    select.classList.add("bg-green-500");
+                });
+            });
+        }
+    });
+
+    // Fungsi untuk mengambil daftar desa berdasarkan kecamatan
+    function fetchDesa(kecamatan, desaDropdown) {
+        desaDropdown.innerHTML = '<option value="">Semua Desa</option>';
+
+        if (kecamatan) {
+            fetch(`/get-desa?kecamatan=${encodeURIComponent(kecamatan)}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(desa => {
+                        let option = document.createElement('option');
+                        option.value = desa;
+                        option.textContent = desa;
+                        desaDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    }
+
+    // jQuery untuk pengambilan desa
+    $(document).ready(function () {
+        $('#kecamatan').change(function () {
+            var kecamatan = $(this).val();
+            $('#desa').html('<option>Loading...</option>');
+
+            $.ajax({
+                url: '/get-desa',
+                type: 'GET',
+                data: { kecamatan: kecamatan },
+                success: function (data) {
+                    $('#desa').html('<option value="">Semua Desa</option>');
+                    $.each(data, function (index, desa) {
+                        $('#desa').append('<option value="' + desa + '">' + desa + '</option>');
+                    });
                 }
             });
         });
-        document.getElementById('view-all-btn').addEventListener('click', function() {
-        document.getElementById('hidden-data').classList.toggle('hidden');
-        this.style.display = 'none';
     });
-    </script>
+
+    // Alpine.js untuk modal tambah lembaga
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('tambahLembaga', () => ({
+            openModal: false,
+            form: {
+                kode_mdt: 'MDT' + Date.now(),
+                nama_lembaga_MDT: '',
+                alamat_madrasah: '',
+                rt: '',
+                rw: '',
+                desa: '',
+                kecamatan: '',
+                nsdt: '',
+                no_hp: '',
+                nama_kepala_MDT: '',
+            },
+            get isFormValid() {
+                return this.form.nama_lembaga_MDT && this.form.alamat_madrasah && this.form.desa && this.form.kecamatan;
+            },
+            async submitForm() {
+                try {
+                    let response = await fetch("{{ route('admin.store') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify(this.form)
+                    });
+
+                    let data = await response.json();
+                    alert(data.message);
+                    this.openModal = false;
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            }
+        }));
+    });
+    function toggleImportDropdown() {
+        var menu = document.getElementById("importMenu");
+        menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", function(event) {
+        var dropdown = document.getElementById("importMenu");
+        var button = document.getElementById("importDropdown");
+        if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.style.display = "none";
+        }
+    });
+      // Update form download dengan filter yang dipilih
+      document.getElementById("filter-form").addEventListener("change", function() {
+        document.getElementById("export-kecamatan").value = document.getElementById("kecamatan").value;
+        document.getElementById("export-desa").value = document.getElementById("desa").value;
+        document.getElementById("export-kode_mdt").value = document.getElementById("kode_mdt").value;
+    });
+
+    // Update nilai filter ke form export saat halaman dimuat ulang
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("export-kecamatan").value = document.getElementById("kecamatan").value;
+        document.getElementById("export-desa").value = document.getElementById("desa").value;
+        document.getElementById("export-kode_mdt").value = document.getElementById("kode_mdt").value;
+    });
+</script>
+
 </body>
 </html>
