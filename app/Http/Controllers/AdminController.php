@@ -93,7 +93,8 @@ class AdminController extends Controller
     
     public function downloadExcel()
     {
-        return Excel::download(new DataExport, 'data-detail.xlsx');
+        return Excel::download(new SantriExport($kecamatan, $desa, $kode_mdt), 'santri.xlsx');
+
     }
 
     public function store(Request $request)
@@ -109,8 +110,24 @@ class AdminController extends Controller
             'nsdt' => 'nullable',
             'no_hp' => 'nullable',
             'nama_kepala_MDT' => 'nullable',
+            'no_peserta_ujian' => 'nullable',
+            'nis' => 'nullable',
+            'nisn' => 'nullable',
+            'nama_santri' => 'required',
+            'jenis_kelamin' => 'nullable',
+            'tempat_lahir' => 'nullable',
+            'tanggal_lahir' => 'nullable|date',
+            'nama_ayah' => 'nullable',
+            'nama_ibu' => 'nullable',
+            'alamat_siswa_kp' => 'nullable',
+            'alamat_siswa_rt' => 'nullable',
+            'alamat_siswa_rw' => 'nullable',
+            'alamat_siswa_desa' => 'nullable',
+            'alamat_siswa_kec' => 'nullable',
+            'asal_sekolah_formal' => 'nullable',
+            'NIK_santri' => 'nullable',
         ]);
-
+        
         MasterMDT::create([
             'kode_mdt' => $request->kode_mdt,
             'nama_lembaga_MDT' => $request->nama_lembaga_MDT,
@@ -122,7 +139,24 @@ class AdminController extends Controller
             'nsdt' => $request->nsdt,
             'no_hp' => $request->no_hp,
             'nama_kepala_MDT' => $request->nama_kepala_MDT,
+            'no_peserta_ujian' => $request->no_peserta_ujian,
+            'nis' => $request->nis,
+            'nisn' => $request->nisn,
+            'nama_santri' => $request->nama_santri,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'nama_ayah' => $request->nama_ayah,
+            'nama_ibu' => $request->nama_ibu,
+            'alamat_siswa_kp' => $request->alamat_siswa_kp,
+            'alamat_siswa_rt' => $request->alamat_siswa_rt,
+            'alamat_siswa_rw' => $request->alamat_siswa_rw,
+            'alamat_siswa_desa' => $request->alamat_siswa_desa,
+            'alamat_siswa_kec' => $request->alamat_siswa_kec,
+            'asal_sekolah_formal' => $request->asal_sekolah_formal,
+            'NIK_santri' => $request->NIK_santri,
         ]);
+        
 
         return response()->json(['message' => 'Data berhasil disimpan']);
     }

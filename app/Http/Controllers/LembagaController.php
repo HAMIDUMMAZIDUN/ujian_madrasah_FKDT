@@ -12,57 +12,85 @@ class LembagaController extends Controller
             'kode_mdt' => 'required',
             'nama_lembaga_MDT' => 'required',
             'alamat_madrasah' => 'required',
-            'rt' => 'required',
-            'rw' => 'required',
+            'rt' => 'nullable',
+            'rw' => 'nullable',
             'desa' => 'required',
             'kecamatan' => 'required',
-            'nsdt' => 'required',
-            'no_hp' => 'required',
-            'nama_kepala_MDT' => 'required',
+            'nsdt' => 'nullable',
+            'no_hp' => 'nullable',
+            'nama_kepala_MDT' => 'nullable',
+            'no_peserta_ujian' => 'nullable',
+            'nis' => 'nullable',
+            'nisn' => 'nullable',
+            'nama_santri' => 'required',
+            'jenis_kelamin' => 'nullable',
+            'tempat_lahir' => 'nullable',
+            'tanggal_lahir' => 'nullable|date',
+            'nama_ayah' => 'nullable',
+            'nama_ibu' => 'nullable',
+            'alamat_siswa_kp' => 'nullable',
+            'alamat_siswa_rt' => 'nullable',
+            'alamat_siswa_rw' => 'nullable',
+            'alamat_siswa_desa' => 'nullable',
+            'alamat_siswa_kec' => 'nullable',
+            'asal_sekolah_formal' => 'nullable',
+            'NIK_santri' => 'nullable',
         ]);
-    
+        
         // Simpan ke database
         MasterMDT::create($validatedData);
-    
+        
         // Redirect dengan session
         return redirect()->back()->with([
             'success' => 'Data berhasil disimpan!',
             'data' => $validatedData
         ]);
     }
+
     public function edit($id)
-{
-    $lembaga = MasterMDT::findOrFail($id);
-    dd($lembaga->toArray());
-    return view('admin.edit', compact('lembaga'));
-}
+    {
+        $lembaga = MasterMDT::findOrFail($id);
+        return view('admin.dashboard', compact('lembaga'));
+    }
 
     public function destroy($id)
     {
         MasterMDT::destroy($id);
         return redirect()->back()->with('success', 'Data berhasil dihapus!');
     }
+
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'kode_mdt' => 'required',
-        'nama_lembaga_MDT' => 'required',
-        'alamat_madrasah' => 'required',
-        'rt' => 'required',
-        'rw' => 'required',
-        'desa' => 'required',
-        'kecamatan' => 'required',
-        'nsdt' => 'required',
-        'no_hp' => 'required',
-        'nama_kepala_MDT' => 'required',
-    ]);
+    {
+        $validatedData = $request->validate([
+            'kode_mdt' => 'required',
+            'nama_lembaga_MDT' => 'required',
+            'alamat_madrasah' => 'required',
+            'rt' => 'nullable',
+            'rw' => 'nullable',
+            'desa' => 'required',
+            'kecamatan' => 'required',
+            'nsdt' => 'nullable',
+            'no_hp' => 'nullable',
+            'nama_kepala_MDT' => 'nullable',
+            'no_peserta_ujian' => 'nullable',
+            'nis' => 'nullable',
+            'nisn' => 'nullable',
+            'nama_santri' => 'required',
+            'jenis_kelamin' => 'nullable',
+            'tempat_lahir' => 'nullable',
+            'tanggal_lahir' => 'nullable|date',
+            'nama_ayah' => 'nullable',
+            'nama_ibu' => 'nullable',
+            'alamat_siswa_kp' => 'nullable',
+            'alamat_siswa_rt' => 'nullable',
+            'alamat_siswa_rw' => 'nullable',
+            'alamat_siswa_desa' => 'nullable',
+            'alamat_siswa_kec' => 'nullable',
+            'asal_sekolah_formal' => 'nullable',
+            'NIK_santri' => 'nullable',
+        ]);
 
-    $lembaga = Lembaga::findOrFail($id);
-    $lembaga->update($request->all());
-
-    return redirect()->route('lembaga.index')->with('success', 'Data berhasil diperbarui!');
+        MasterMDT::where('id', $id)->update($validatedData);
+        return redirect()->route('admin.dashboard.index')->with('success', 'Data berhasil diperbarui!');
+    }
 }
-
-    
-}
-

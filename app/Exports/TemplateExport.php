@@ -8,7 +8,33 @@ class TemplateExport implements FromArray
     public function array(): array
     {
         return [
-            ['kode_mdt', 'nama_lembaga_MDT', 'alamat_madrasah', 'kecamatan', 'nama_santri', 'nis', 'NIK_Santri'],
-        ];
+                'kode_mdt', 
+                'nama_lembaga_MDT', 
+                'alamat_madrasah', 
+                'rt', 
+                'rw', 
+                'desa', 
+                'kecamatan', 
+                'nsdt', 
+                'no_hp', 
+                'nama_kepala_MDT', 
+                'no_peserta_ujian', 
+                'nis', 
+                'nisn', 
+                'nama_santri', 
+                'jenis_kelamin', 
+                'tempat_lahir', 
+                'tanggal_lahir', 
+                'nama_ayah', 
+                'nama_ibu', 
+                'alamat_siswa_kp', 
+                'alamat_siswa_rt', 
+                'alamat_siswa_rw', 
+                'alamat_siswa_desa', 
+                'alamat_siswa_kec', 
+                'asal_sekolah_formal', 
+                'NIK_santri'
+            ];
+            
     }
 }

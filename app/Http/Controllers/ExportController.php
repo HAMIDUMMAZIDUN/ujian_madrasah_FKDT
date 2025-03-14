@@ -15,7 +15,7 @@ class ExportController extends Controller
         $kode_mdt = $request->input('kode_mdt');
 
         // Unduh data sesuai filter yang diterapkan
-        return Excel::download(new SantriExport($kecamatan, $desa, $kode_mdt), 'data_santri.xlsx');
+        return Excel::download(new SantriExport($kecamatan, $desa, $kode_mdt), 'DATA PDUMDT.xlsx');
     }
 }
 
