@@ -25,6 +25,7 @@ class MasterMdt extends Model
         'no_peserta_ujian',
         'nis',
         'nisn',
+        'no_urut_santri_diniyah',
         'nama_santri',
         'jenis_kelamin',
         'tempat_lahir',

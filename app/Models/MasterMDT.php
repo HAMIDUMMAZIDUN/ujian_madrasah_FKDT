@@ -5,6 +5,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 class MasterMdt extends Model
 {
+    use HasFactory;
+
     public $timestamps = false; // Menonaktifkan timestamps
 
     protected $table = 'master_mdt'; // Nama tabel di database
@@ -23,6 +25,7 @@ class MasterMdt extends Model
         'no_peserta_ujian',
         'nis',
         'nisn',
+        'no_urut_santri_diniyah',
         'nama_santri',
         'jenis_kelamin',
         'tempat_lahir',

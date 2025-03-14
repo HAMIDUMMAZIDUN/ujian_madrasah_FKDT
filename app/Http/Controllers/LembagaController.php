@@ -75,6 +75,7 @@ class LembagaController extends Controller
             'no_peserta_ujian' => 'nullable',
             'nis' => 'nullable',
             'nisn' => 'nullable',
+            'no_urut_santri_diniyah' => 'nullable',
             'nama_santri' => 'required',
             'jenis_kelamin' => 'nullable',
             'tempat_lahir' => 'nullable',

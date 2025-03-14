@@ -16,6 +16,7 @@
             <th class="border border-gray-300 px-4 py-2">NIS</th>
             <th class="border border-gray-300 px-4 py-2">NISN</th>
             <th class="border border-gray-300 px-4 py-2">NIK Santri</th>
+            <th class="border border-gray-300 px-4 py-2">No Urut Santri Lembaga Diniyah</th>
             <th class="border border-gray-300 px-4 py-2">Nama santri</th>
             <th class="border border-gray-300 px-4 py-2">Jenis Kelamin</th>
             <th class="border border-gray-300 px-4 py-2">Tempat Lahir</th>
@@ -49,6 +50,7 @@
             <td class="border border-gray-300 px-4 py-2">{{ $item->nis }}</td>
             <td class="border border-gray-300 px-4 py-2">{{ $item->nisn}}</td>
             <td class="border border-gray-300 px-4 py-2">{{ $item->NIK_Santri}}</td>
+            <td class="border border-gray-300 px-4 py-2">{{ $item->no_peserta ?? 'Belum Digenerate' }}</td>
             <td class="border border-gray-300 px-4 py-2">{{ $item->nama_santri}}</td>
             <td class="border border-gray-300 px-4 py-2">{{ $item->jenis_kelamin}}</td>
             <td class="border border-gray-300 px-4 py-2">{{ $item->tempat_lahir }}</td>
@@ -85,8 +87,8 @@
             <input type="hidden" id="editId" name="id">
 
             <div class="mb-4">
-                <label class="block text-gray-700">Kode MDT</label>
-                <input type="text" id="editKode" name="kode_mdt" class="w-full border p-2 rounded">
+            <label class="block text-gray-700">Kode MDT</label>
+            <input type="text" id="editKode" name="kode_mdt" class="w-full border p-2 rounded">
             </div>
 
             <div class="mb-4">
@@ -100,14 +102,105 @@
             </div>
 
             <div class="mb-4">
+                <label class="block text-gray-700">RT</label>
+                <input type="text" id="editRT" name="rt" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">RW</label>
+                <input type="text" id="editRW" name="rw" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">Desa</label>
+                <input type="text" id="editDesa" name="desa" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
                 <label class="block text-gray-700">Kecamatan</label>
                 <input type="text" id="editKecamatan" name="kecamatan" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">NSDT</label>
+                <input type="text" id="editNsdt" name="nsdt" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">No HP</label>
+                <input type="text" id="editNoHp" name="no_hp" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">Nama Kepala MDT</label>
+                <input type="text" id="editKepala" name="nama_kepala_MDT" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">No Peserta Ujian</label>
+                <input type="text" id="editNoPeserta" name="no_peserta_ujian" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">NIS</label>
+                <input type="text" id="editNIS" name="nis" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">NISN</label>
+                <input type="text" id="editNISN" name="nisn" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">No Urut Santri Diniyah</label>
+                <input type="text" id="editNoUrut" name="no_urut_santri_diniyah" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">Nama Santri</label>
+                <input type="text" id="editNamaSantri" name="nama_santri" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">Jenis Kelamin</label>
+                <input type="text" id="editJenisKelamin" name="jenis_kelamin" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">Tempat Lahir</label>
+                <input type="text" id="editTempatLahir" name="tempat_lahir" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">Tanggal Lahir</label>
+                <input type="date" id="editTanggalLahir" name="tanggal_lahir" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">Nama Ayah</label>
+                <input type="text" id="editNamaAyah" name="nama_ayah" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">Nama Ibu</label>
+                <input type="text" id="editNamaIbu" name="nama_ibu" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">Asal Sekolah Formal</label>
+                <input type="text" id="editAsalSekolah" name="asal_sekolah_formal" class="w-full border p-2 rounded">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700">NIK Santri</label>
+                <input type="text" id="editNIKSantri" name="NIK_Santri" class="w-full border p-2 rounded">
             </div>
 
             <div class="flex justify-end space-x-2">
                 <button type="button" onclick="closeEditModal()" class="bg-gray-500 text-white px-4 py-2 rounded">Batal</button>
                 <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Simpan</button>
             </div>
+
         </form>
     </div>
 </div>

@@ -189,4 +189,19 @@
             resultsBox.classList.add('hidden');
         }
     });
+    function generateNoPeserta() {
+        fetch("{{ route('generate.no_peserta') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("noPeserta").innerText = "No Peserta: " + data.no_peserta;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    
 </script>

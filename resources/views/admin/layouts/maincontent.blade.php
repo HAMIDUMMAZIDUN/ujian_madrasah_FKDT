@@ -70,7 +70,6 @@
 <br>
 <div class="container-fluid">
     <div class="d-flex align-items-center gap-2 mb-3">
-        
         <!-- Tombol Download Excel -->
         <form method="GET" id="export-form" action="{{ route('export.excel') }}">
             <input type="hidden" name="kecamatan" id="export-kecamatan">
@@ -88,16 +87,11 @@
                 style="background: #007bff; border: none; border-radius: 8px;">
                 Import
             </button>
-
             <div id="importMenu" class="dropdown-menu p-3 shadow text-center"
                 style="border-radius: 10px; min-width: 250px; display: none;">
-                
-                <!-- Button Download Template -->
                 <button class="btn btn-primary w-100 mb-2 fw-bold" onclick="window.location.href='{{ route('download.template') }}'">
                     Download Template
                 </button>
-
-                <!-- Form Upload File -->
                 <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="file" name="file" class="form-control mb-2" required>
@@ -112,6 +106,28 @@
     </div>
 </div>
 
+@if(session('success'))
+    <script>
+        Swal.fire({
+            title: "Sukses!",
+            text: "{{ session('success') }}",
+            icon: "success",
+            confirmButtonText: "OK"
+        });
+    </script>
+@endif
+
+@if(session('error'))
+    <script>
+        Swal.fire({
+            title: "Gagal!",
+            text: "{{ session('error') }}",
+            icon: "error",
+            confirmButtonText: "OK"
+        });
+    </script>
+@endif
+
     <!-- TABEL DETAIL DATA -->
 <div class="mt-6 bg-white p-6 shadow rounded-lg overflow-auto h-[calc(90vh-90px)]">
     <div class="text-center mt-4">
@@ -121,6 +137,6 @@
             @include('database.mastermdt', compact('data'))
         @endif
 
-    <div id="hidden-data" class="hidden mt-4 overflow-auto">
+        <div id="hidden-data" class="hidden mt-4 overflow-auto">
     </div>
 </div>

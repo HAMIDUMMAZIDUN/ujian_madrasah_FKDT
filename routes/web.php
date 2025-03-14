@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\LembagaController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\PesertaController;
 
     // Route untuk halaman utama
     Route::get('/', function () {
@@ -69,6 +70,7 @@ use App\Http\Controllers\ExportController;
     Route::post('/import-excel', [ImportController::class, 'importExcel'])->name('import.excel');
     Route::get('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
     Route::get('/search/santri', [AdminController::class, 'search'])->name('search.santri');
+    Route::get('/generate-no-peserta', [PesertaController::class, 'generateNoPeserta'])->name('generate.no_peserta');
 
 });
 
