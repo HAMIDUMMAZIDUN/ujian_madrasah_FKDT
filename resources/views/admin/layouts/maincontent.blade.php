@@ -50,6 +50,20 @@
             <h2 class="text-xl font-semibold">Jumlah Kecamatan</h2>
             <p class="text-2xl font-bold">{{ $jumlah_kecamatan }}</p>
         </div>
+        <div class="p-4 bg-pink-500 text-white shadow rounded-lg text-center">
+            <div class="flex justify-center mb-2">
+            <i data-lucide="users" class="w-8 h-8"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Jumlah Santri laki-laki</h2>
+            <p class="text-2xl font-bold">{{ $jumlah_santri_laki }}</p>
+        </div>
+        <div class="p-4 bg-pink-500 text-white shadow rounded-lg text-center">
+            <div class="flex justify-center mb-2">
+            <i data-lucide="users" class="w-8 h-8"></i>
+            </div>
+            <h2 class="text-xl font-semibold">Jumlah Santri Perempuan</h2>
+            <p class="text-2xl font-bold">{{ $jumlah_santri_perempuan }}</p>
+        </div>
     </div>
 
             <!-- Button Download Excel & Import -->
