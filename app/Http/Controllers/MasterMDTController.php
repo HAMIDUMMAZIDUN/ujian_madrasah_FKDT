@@ -1,44 +1,52 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use App\Models\MasterMdt;
 
-class MasterMdt extends Model
+class MasterMdtController extends Controller
 {
-    use HasFactory;
+    public function update(Request $request)
+    {
+        // Validasi data
+        $request->validate([
+            'id' => 'required|exists:master_mdt,id',
+            'kode_mdt' => 'required|string',
+            'nama_lembaga_MDT' => 'required|string',
+            'alamat_madrasah' => 'required|string',
+            'rt' => 'nullable|string',
+            'rw' => 'nullable|string',
+            'desa' => 'nullable|string',
+            'kecamatan' => 'nullable|string',
+            'nsdt' => 'nullable|string',
+            'no_hp' => 'nullable|string',
+            'nama_kepala_MDT' => 'nullable|string',
+            'no_peserta_ujian' => 'nullable|string',
+            'nis' => 'nullable|string',
+            'nisn' => 'nullable|string',
+            'no_urut_santri_diniyah' => 'nullable|string',
+            'nama_santri' => 'nullable|string',
+            'jenis_kelamin' => 'nullable|string',
+            'tempat_lahir' => 'nullable|string',
+            'tanggal_lahir' => 'nullable|date',
+            'nama_ayah' => 'nullable|string',
+            'nama_ibu' => 'nullable|string',
+            'alamat_siswa_kp' => 'nullable|string',
+            'alamat_siswa_rt' => 'nullable|string',
+            'alamat_siswa_rw' => 'nullable|string',
+            'alamat_siswa_desa' => 'nullable|string',
+            'alamat_siswa_kec' => 'nullable|string',
+            'asal_sekolah_formal' => 'nullable|string',
+            'NIK_santri' => 'nullable|string',
+        ]);
 
-    protected $table = 'master_mdt'; // Pastikan tabelnya benar
+        // Cari data berdasarkan ID
+        $lembaga = MasterMdt::findOrFail($request->id);
 
-    protected $fillable = [
-        'kode_mdt',
-        'nama_lembaga_MDT',
-        'alamat_madrasah',
-        'rt',
-        'rw',
-        'desa',
-        'kecamatan',
-        'nsdt',
-        'no_hp',
-        'nama_kepala_MDT',
-        'no_peserta_ujian',
-        'nis',
-        'nisn',
-        'no_urut_santri_diniyah',
-        'nama_santri',
-        'jenis_kelamin',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'nama_ayah',
-        'nama_ibu',
-        'alamat_siswa_kp',
-        'alamat_siswa_rt',
-        'alamat_siswa_rw',
-        'alamat_siswa_desa',
-        'alamat_siswa_kec',
-        'asal_sekolah_formal',
-        'NIK_santri',
-    ];
-    
+        // Update data
+        $lembaga->update($request->except(['id', '_token', '_method']));
+
+        return response()->json(['success' => true, 'message' => 'Data berhasil diperbarui']);
+    }
 }

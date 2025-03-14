@@ -20,7 +20,7 @@
     </style>
 </head>
 <body class="bg-gray-100">
-<div x-data="{ sidebarOpen: true }" class="flex">
+<div x-data="{ sidebarOpen: true }" class="flex h-screen">
     <!-- Sidebar -->
     <aside :class="sidebarOpen ? 'w-64' : 'w-16'" class="h-screen bg-gray-900 text-gray-200 p-4 shadow-md transition-all duration-300 relative">
        

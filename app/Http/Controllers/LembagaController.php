@@ -92,6 +92,6 @@ class LembagaController extends Controller
         ]);
 
         MasterMDT::where('id', $id)->update($validatedData);
-        return redirect()->route('admin.dashboard.index')->with('success', 'Data berhasil diperbarui!');
+        return redirect()->route('admin.dashboard')->with('success', 'Data berhasil diperbarui!');
     }
 }

@@ -17,6 +17,7 @@ use App\Http\Controllers\LembagaController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\PesertaController;
+use App\Http\Controllers\Admin\DashboardController;
 
     // Route untuk halaman utama
     Route::get('/', function () {
@@ -40,11 +41,10 @@ use App\Http\Controllers\PesertaController;
     // Route 
     Route::middleware(['auth'])->group(function () {
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('/ujian', UjianController::class);
     Route::get('/get-kecamatan', [DataController::class, 'getKecamatan']);
     Route::get('/get-desa/{kecamatan_id}', [DataController::class, 'getDesa']);
     Route::get('/get-lembaga/{desa_id}', [DataController::class, 'getLembaga']);
@@ -71,7 +71,8 @@ use App\Http\Controllers\PesertaController;
     Route::get('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
     Route::get('/search/santri', [AdminController::class, 'search'])->name('search.santri');
     Route::get('/generate-no-peserta', [PesertaController::class, 'generateNoPeserta'])->name('generate.no_peserta');
-
+    Route::put('/master-mdt/update', [MasterMdtController::class, 'update'])->name('master_mdt.update');
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
 
     // Route untuk logout menggunakan controller
