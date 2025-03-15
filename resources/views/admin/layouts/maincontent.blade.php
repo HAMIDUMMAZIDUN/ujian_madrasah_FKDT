@@ -81,26 +81,13 @@
                     </form>
 
             <!-- Button Import -->
-            <div class="dropdown">
-                <button class="btn text-white fw-bold px-4 py-2" type="button" id="importDropdown"
-                    onclick="toggleImportDropdown()"
-                    style="background: #007bff; border: none; border-radius: 8px;">
-                    Import
-                </button>
-                <div id="importMenu" class="dropdown-menu p-3 shadow text-center"
-                    style="border-radius: 10px; min-width: 250px; display: none;">
-                    <button class="btn btn-primary w-100 mb-2 fw-bold" onclick="window.location.href='{{ route('download.template') }}'">
-                        Download Template
-                    </button>
-                    <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="file" class="form-control mb-2" required>
-                        <button type="submit" class="btn text-white fw-bold w-100 py-2"
-                            style="background: linear-gradient(90deg, #28a745 0%, #218838 100%);
-                            border: none; border-radius: 6px;">
-                            Upload File
-                        </button>
-                    </form>
+            <!-- resources/views/import.blade.php -->
+            <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <a href="{{ route('download.template') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Download Template</a>
+                <input type="file" name="file" class="mt-2">
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded mt-2">Upload</button>
+            </form>
                 </div>
             </div>
         </div>
