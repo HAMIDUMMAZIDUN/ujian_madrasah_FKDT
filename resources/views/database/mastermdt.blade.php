@@ -132,8 +132,11 @@
                         <input type="text" id="editKepala" name="nama_kepala_MDT" class="w-full border p-2 rounded">
                     </div>
                     <div>
-                        <label class="block text-gray-700">No Peserta Ujian</label>
+                    <label class="block text-gray-700">No Peserta Ujian</label>
+                    <div class="flex gap-2">
                         <input type="text" id="editNoPeserta" name="no_peserta_ujian" class="w-full border p-2 rounded">
+                        <button type="button" id="generateNoPeserta" class="bg-blue-500 text-white px-4 py-2 rounded">Generate</button>
+                        </div>
                     </div>
                     <div>
                         <label class="block text-gray-700">NIS</label>
@@ -223,7 +226,7 @@
         document.getElementById('editNsdt').value = data.nsdt || '';
         document.getElementById('editNoHp').value = data.no_hp || '';
         document.getElementById('editKepala').value = data.nama_kepala_MDT || '';
-        document.getElementById('editNoPeserta').value = data.no_peserta_ujian || '';
+        document.getElementById('editNoPeserta').value = window.data?.no_peserta_ujian || '';
         document.getElementById('editNIS').value = data.nis || '';
         document.getElementById('editNISN').value = data.nisn || '';
         document.getElementById('editNoUrut').value = data.no_urut_santri_diniyah || '';

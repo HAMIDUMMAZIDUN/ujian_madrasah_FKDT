@@ -73,6 +73,9 @@ use App\Http\Controllers\Admin\DashboardController;
     Route::get('/generate-no-peserta', [PesertaController::class, 'generateNoPeserta'])->name('generate.no_peserta');
     Route::put('/master-mdt/update', [MasterMdtController::class, 'update'])->name('master_mdt.update');
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::post('/save-no-peserta', [MasterMdtController::class, 'saveNoPeserta'])->name('save.no_peserta');
+
+
 });
 
     // Route untuk logout menggunakan controller

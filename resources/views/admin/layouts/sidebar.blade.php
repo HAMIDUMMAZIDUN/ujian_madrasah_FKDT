@@ -4,10 +4,10 @@
 
         <!-- Fitur Menu -->
         <div x-show="sidebarOpen" x-transition>
-        <a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded">
-            <i data-lucide="layout-dashboard"></i>
-            <span class="ml-2">Dashboard</span>
-        </a>
+                <a href="#" class="flex items-center p-2 text-gray-300 hover:bg-gray-700 rounded">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5 mr-2"></i>
+                    <span>Dashboard</span>
+                </a>
         <br>
 
         <!-- FORM FILTER -->

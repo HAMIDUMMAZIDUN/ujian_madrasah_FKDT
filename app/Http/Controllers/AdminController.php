@@ -128,11 +128,29 @@ class AdminController extends Controller
             'alamat_siswa_desa' => 'required',
             'alamat_siswa_kec' => 'required',
             'asal_sekolah_formal' => 'required',
-            'NIK_santri' => 'nullable|string' // Perbaikan nama field
+            'NIK_santri' => 'nullable|string' 
         ]);
 
+         // Cek apakah request memiliki 'no_peserta_ujian'
+            if ($request->has('no_peserta_ujian')) {
+                $request->validate([
+                    'no_peserta_ujian' => 'required|unique:master_mdt,no_peserta_ujian'
+                ]);
+
+                // Update nomor peserta ujian untuk santri yang belum memiliki nomor peserta
+                $santri = MasterMdt::whereNull('no_peserta_ujian')->first();
+
+                if ($santri) {
+                    $santri->no_peserta_ujian = $request->no_peserta_ujian;
+                    $santri->save();
+                    return response()->json(['success' => true, 'message' => 'No Peserta berhasil disimpan!']);
+                } else {
+                    return response()->json(['success' => false, 'message' => 'Tidak ada data santri yang bisa diperbarui.']);
+                }
+            }
         MasterMdt::create($request->all());
 
         return response()->json(['message' => 'Data berhasil disimpan']);
     }
+
 }

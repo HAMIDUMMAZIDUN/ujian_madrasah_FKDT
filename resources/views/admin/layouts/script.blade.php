@@ -1,6 +1,5 @@
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
         lucide.createIcons();
 
         // Toggle menu pengguna
@@ -78,23 +77,23 @@
 
     // jQuery untuk pengambilan desa
     $(document).ready(function () {
-        $('#kecamatan').change(function () {
-            var kecamatan = $(this).val();
-            $('#desa').html('<option>Loading...</option>');
+            $('#kecamatan').change(function () {
+                var kecamatan = $(this).val();
+                $('#desa').html('<option>Loading...</option>');
 
-            $.ajax({
-                url: '/get-desa',
-                type: 'GET',
-                data: { kecamatan: kecamatan },
-                success: function (data) {
-                    $('#desa').html('<option value="">Semua Desa</option>');
-                    $.each(data, function (index, desa) {
-                        $('#desa').append('<option value="' + desa + '">' + desa + '</option>');
-                    });
-                }
+                $.ajax({
+                    url: "{{ url('/get-desa') }}", // Pastikan URL sesuai dengan route
+                    type: "GET",
+                    data: { kecamatan: kecamatan },
+                    success: function (data) {
+                        $('#desa').html('<option value="">Semua Desa</option>');
+                        $.each(data, function (index, desa) {
+                            $('#desa').append('<option value="' + desa + '">' + desa + '</option>');
+                        });
+                    }
+                });
             });
         });
-    });
 
     // Alpine.js untuk modal tambah lembaga
     document.addEventListener('alpine:init', () => {
@@ -189,19 +188,4 @@
             resultsBox.classList.add('hidden');
         }
     });
-    function generateNoPeserta() {
-        fetch("{{ route('generate.no_peserta') }}", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Content-Type": "application/json"
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("noPeserta").innerText = "No Peserta: " + data.no_peserta;
-        })
-        .catch(error => console.error('Error:', error));
-    }
-    
 </script>
