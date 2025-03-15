@@ -57,7 +57,6 @@ class AdminController extends Controller
 
         // Ambil daftar kode_mdt setelah filter diterapkan
         $list_kode_mdt = $query->distinct()->pluck('kode_mdt');
-
         return view('admin.dashboard', compact(
             'data',
             'jumlah_lembaga',

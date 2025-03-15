@@ -1,45 +1,31 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\UjianController;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\MasterMDTController;
-use App\Http\Controllers\DataController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\LembagaController;
-use App\Http\Controllers\ImportController;
-use App\Http\Controllers\ExportController;
-use App\Http\Controllers\PesertaController;
+use App\Http\Controllers\{ProfileController, AuthenticatedSessionController, UjianController, AuthController, AdminController, UserController, LoginController, MasterMDTController, DataController, LembagaController, ImportController, ExportController, PesertaController};
 use App\Http\Controllers\Admin\DashboardController;
+use Illuminate\Support\Facades\{Route, Auth, DB};
+use Illuminate\Http\Request;
 
-    // Route untuk halaman utama
-    Route::get('/', function () {
+// Route untuk halaman utama
+Route::get('/', function () {
     return view('welcome');
-    });
+});
 
-    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [LoginController::class, 'login']);
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-    // Route Default Dashboard (Mencegah Loop Redirect)
-    Route::get('/dashboard', function () {
+// Route Default Dashboard (Mencegah Loop Redirect)
+Route::get('/dashboard', function () {
     if (!Auth::check()) {
         return redirect()->route('login');
     }
     
     $user = Auth::user();
     return $user->role === 'admin' ? redirect()->route('admin.dashboard') : redirect()->route('user.dashboard');
-    })->middleware('auth')->name('dashboard');
+})->middleware('auth')->name('dashboard');
 
-    // Route 
-    Route::middleware(['auth'])->group(function () {
+// Route untuk pengguna yang sudah login
+Route::middleware(['auth'])->group(function () {
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -50,7 +36,6 @@ use App\Http\Controllers\Admin\DashboardController;
     Route::get('/get-lembaga/{desa_id}', [DataController::class, 'getLembaga']);
     Route::get('/filter-data', [DataController::class, 'filterData']);
     Route::get('/get-all-data', [DataController::class, 'getAllData']);
-    Route::get('/get-desa', [AdminController::class, 'getDesaByKecamatan']);
     Route::get('/admin/download-excel', [AdminController::class, 'downloadExcel'])->name('admin.downloadExcel');
     Route::get('/tambah-lembaga', [LembagaController::class, 'create'])->name('lembaga.create');
     Route::post('/tambah-lembaga', [LembagaController::class, 'store'])->name('lembaga.store');
@@ -59,8 +44,6 @@ use App\Http\Controllers\Admin\DashboardController;
     Route::post('/simpan-kecamatan', [LembagaController::class, 'simpanKecamatan']);
     Route::post('/simpan-desa', [LembagaController::class, 'simpanDesa']);
     Route::get('/get-last-mdt', [LembagaController::class, 'getLastMDT']);
-    Route::get('/lembaga/tambah', [LembagaController::class, 'create'])->name('lembaga.create');
-    Route::post('/lembaga/store', [LembagaController::class, 'store'])->name('lembaga.store');
     Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
     Route::get('/edit/{id}', [LembagaController::class, 'edit'])->name('edit');
     Route::delete('/delete/{id}', [LembagaController::class, 'destroy'])->name('delete');
@@ -71,18 +54,15 @@ use App\Http\Controllers\Admin\DashboardController;
     Route::get('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
     Route::get('/search/santri', [AdminController::class, 'search'])->name('search.santri');
     Route::get('/generate-no-peserta', [PesertaController::class, 'generateNoPeserta'])->name('generate.no_peserta');
-    Route::put('/master-mdt/update', [MasterMdtController::class, 'update'])->name('master_mdt.update');
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::post('/save-no-peserta', [MasterMdtController::class, 'saveNoPeserta'])->name('save.no_peserta');
-
-
+    Route::put('/master-mdt/update', [MasterMDTController::class, 'update'])->name('master_mdt.update');
+    Route::post('/save-no-peserta', [MasterMDTController::class, 'saveNoPeserta'])->name('save.no_peserta');
 });
 
-    // Route untuk logout menggunakan controller
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+// Route untuk logout menggunakan controller
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    //Route untuk masterMDT
-    Route::get('/master_mdt', [MasterMDTController::class, 'index']);
+// Route untuk masterMDT
+Route::get('/master_mdt', [MasterMDTController::class, 'index']);
 
-    // Memuat route auth tambahan dari Laravel Breeze/Fortify jika digunakan
-    require __DIR__.'/auth.php';
+// Memuat route auth tambahan dari Laravel Breeze/Fortify jika digunakan
+require __DIR__.'/auth.php';

@@ -3,16 +3,23 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AdminSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        User::create([
+        DB::table('users')->insert([
             'name' => 'Admin',
-            'email' => 'hamidabdulaziz336@gmail.com',
-            'password' => bcrypt('£#Vf8KH3!g1-'),
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password123'), // Ganti dengan password yang lebih aman
+            'role' => 'admin', // Pastikan ada kolom role di tabel users
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 }

@@ -127,13 +127,7 @@
                     });
                 </script>
             @endif
-
-            <!-- Button Generate No Peserta -->
-            <button class="btn text-white fw-bold px-4 py-2 mt-3" type="button" id="generateNoPeserta2"
-                style="background: #17a2b8; border: none; border-radius: 8px;">
-                Generate No Peserta
-            </button>
-
+            
                 <!-- TABEL DETAIL DATA -->
             <div class="mt-6 bg-white p-6 shadow rounded-lg overflow-auto h-[calc(90vh-90px)]">
                 <div class="text-center mt-4">

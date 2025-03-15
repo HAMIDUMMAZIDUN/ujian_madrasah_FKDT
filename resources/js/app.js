@@ -2,7 +2,8 @@ import './bootstrap';
 
 import Alpine from 'alpinejs';
 
-import lucide from 'lucide';
+import * as Lucide from "lucide-react";
+
 
 window.Alpine = Alpine;
 

@@ -134,31 +134,39 @@
             }
         }));
     });
-    function toggleImportDropdown() {
-        var menu = document.getElementById("importMenu");
-        menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+        const importButton = document.getElementById("importDropdown");
+        const importMenu = document.getElementById("importMenu");
 
-    // Close dropdown when clicking outside
-    document.addEventListener("click", function(event) {
-        var dropdown = document.getElementById("importMenu");
-        var button = document.getElementById("importDropdown");
-        if (!button.contains(event.target) && !dropdown.contains(event.target)) {
-            dropdown.style.display = "none";
+        if (importButton && importMenu) {
+            // Toggle dropdown saat tombol diklik
+            importButton.addEventListener("click", function (event) {
+                event.stopPropagation(); // Mencegah event click menyebar ke document
+                importMenu.classList.toggle("hidden");
+            });
+
+            // Tutup dropdown jika klik di luar menu
+            document.addEventListener("click", function (event) {
+                if (!importMenu.contains(event.target) && !importButton.contains(event.target)) {
+                    importMenu.classList.add("hidden");
+                }
+            });
         }
-    });
-      // Update form download dengan filter yang dipilih
-      document.getElementById("filter-form").addEventListener("change", function() {
-        document.getElementById("export-kecamatan").value = document.getElementById("kecamatan").value;
-        document.getElementById("export-desa").value = document.getElementById("desa").value;
-        document.getElementById("export-kode_mdt").value = document.getElementById("kode_mdt").value;
-    });
 
-    // Update nilai filter ke form export saat halaman dimuat ulang
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("export-kecamatan").value = document.getElementById("kecamatan").value;
-        document.getElementById("export-desa").value = document.getElementById("desa").value;
-        document.getElementById("export-kode_mdt").value = document.getElementById("kode_mdt").value;
+        // Update form export saat filter berubah
+        const filterForm = document.getElementById("filter-form");
+        if (filterForm) {
+            filterForm.addEventListener("change", function () {
+                document.getElementById("export-kecamatan").value = document.getElementById("kecamatan")?.value || "";
+                document.getElementById("export-desa").value = document.getElementById("desa")?.value || "";
+                document.getElementById("export-kode_mdt").value = document.getElementById("kode_mdt")?.value || "";
+            });
+        }
+
+        // Update form export saat halaman dimuat ulang
+        document.getElementById("export-kecamatan").value = document.getElementById("kecamatan")?.value || "";
+        document.getElementById("export-desa").value = document.getElementById("desa")?.value || "";
+        document.getElementById("export-kode_mdt").value = document.getElementById("kode_mdt")?.value || "";
     });
     document.getElementById('searchBox').addEventListener('input', function () {
         let query = this.value;
