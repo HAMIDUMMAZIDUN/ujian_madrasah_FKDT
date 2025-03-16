@@ -17,51 +17,53 @@
         </div>
     </div>
 
-    <!-- Statistik -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mt-12">
-    <div class="p-5 bg-white shadow rounded-xl">
-        <h2 class="text-sm font-semibold text-gray-600">Jumlah Lembaga</h2>
-        <p class="text-2xl font-bold text-gray-800">{{ $jumlah_lembaga }}</p>
-        <div class="h-16 w-full">
+   <!-- Statistik -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-12">
+    <div class="p-6  text-black shadow-lg rounded-xl transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col items-center text-center">
+        <h2 class="text-lg font-semibold">Jumlah Lembaga</h2>
+        <p class="text-3xl font-bold">{{ $jumlah_lembaga }}</p>
+        <div class="h-24 w-full">
             <canvas id="chartLembaga"></canvas>
         </div>
     </div>
-    <div class="p-5 bg-white shadow rounded-xl">
-        <h2 class="text-sm font-semibold text-gray-600">Jumlah Santri</h2>
-        <p class="text-2xl font-bold text-gray-800">{{ $jumlah_santri }}</p>
-        <div class="h-16 w-full">
+    <div class="p-6  text-black  shadow-lg rounded-xl transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col items-center text-center">
+        <h2 class="text-lg font-semibold">Jumlah Santri</h2>
+        <p class="text-3xl font-bold">{{ $jumlah_santri }}</p>
+        <div class="h-24 w-full">
             <canvas id="chartSantri"></canvas>
         </div>
     </div>
-    <div class="p-5 bg-white shadow rounded-xl">
-        <h2 class="text-sm font-semibold text-gray-600">Jumlah Desa</h2>
-        <p class="text-2xl font-bold text-gray-800">{{ $jumlah_desa }}</p>
-        <div class="h-16 w-full">
+    <div class="p-6  text-black  shadow-lg rounded-xl transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col items-center text-center">
+        <h2 class="text-lg font-semibold">Jumlah Desa</h2>
+        <p class="text-3xl font-bold">{{ $jumlah_desa }}</p>
+        <div class="h-24 w-full">
             <canvas id="chartDesa"></canvas>
         </div>
     </div>
-    <div class="p-5 bg-white shadow rounded-xl">
-        <h2 class="text-sm font-semibold text-gray-600">Jumlah Kecamatan</h2>
-        <p class="text-2xl font-bold text-gray-800">{{ $jumlah_kecamatan }}</p>
-        <div class="h-16 w-full">
+    <div class="p-6  text-black  shadow-lg rounded-xl transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col items-center text-center">
+        <h2 class="text-lg font-semibold">Jumlah Kecamatan</h2>
+        <p class="text-3xl font-bold">{{ $jumlah_kecamatan }}</p>
+        <div class="h-24 w-full">
             <canvas id="chartKecamatan"></canvas>
         </div>
     </div>
-    <div class="p-5 bg-white shadow rounded-xl">
-        <h2 class="text-sm font-semibold text-gray-600">Jumlah Santri Laki-laki</h2>
-        <p class="text-2xl font-bold text-gray-800">{{ $jumlah_santri_laki }}</p>
-        <div class="h-16 w-full">
+    <div class="p-6  text-black  shadow-lg rounded-xl transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col items-center text-center">
+        <h2 class="text-lg font-semibold">Jumlah Santri Laki-laki</h2>
+        <p class="text-3xl font-bold">{{ $jumlah_santri_laki }}</p>
+        <div class="h-24 w-full">
             <canvas id="chartSantriLaki"></canvas>
         </div>
     </div>
-    <div class="p-5 bg-white shadow rounded-xl">
-        <h2 class="text-sm font-semibold text-gray-600">Jumlah Santri Perempuan</h2>
-        <p class="text-2xl font-bold text-gray-800">{{ $jumlah_santri_perempuan }}</p>
-        <div class="h-16 w-full">
+    <div class="p-6  text-black  shadow-lg rounded-xl transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col items-center text-center">
+        <h2 class="text-lg font-semibold">Jumlah Santri Perempuan</h2>
+        <p class="text-3xl font-bold">{{ $jumlah_santri_perempuan }}</p>
+        <div class="h-24 w-full">
             <canvas id="chartSantriPerempuan"></canvas>
         </div>
     </div>
 </div>
+
+
 
     <!-- Button Download Excel & Import -->
     <div class="mt-4">
@@ -75,8 +77,30 @@
                 <input type="file" name="file" class="border rounded px-2 py-1 text-sm">
                 <button type="submit" class="bg-green-500 text-white px-3 py-1.5 rounded">Upload</button>
             </form>
+            <!-- Tombol Hapus Semua Data -->
+            <button onclick="openDeleteModal()" class="bg-red-500 text-white px-3 py-1.5 rounded">Hapus Semua Data</button>
         </div>
     </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div id="deleteModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-6 rounded shadow-lg">
+            <h2 class="text-lg font-bold mb-3">Konfirmasi Hapus</h2>
+            <p class="mb-2">Masukkan PIN Admin untuk menghapus semua data:</p>
+            <input type="password" id="deletePin" class="border p-2 w-full mb-3" placeholder="Masukkan PIN">
+            <div class="flex justify-end gap-2">
+                <button onclick="closeDeleteModal()" class="bg-gray-500 text-white px-3 py-1.5 rounded">Batal</button>
+                <button onclick="submitDelete()" class="bg-red-500 text-white px-3 py-1.5 rounded">Hapus</button>
+            </div>
+        </div>
+    </div>
+
+<!-- Form Hapus yang Tersembunyi -->
+<form id="deleteForm" action="{{ route('delete.all') }}" method="POST">
+    @csrf
+    @method('DELETE')
+    <input type="hidden" name="pin" id="hiddenPin">
+</form>
 
     @if(session('success'))
         <div class="bg-green-500 text-white p-2 rounded mt-2 text-sm">

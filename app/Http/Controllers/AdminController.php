@@ -8,6 +8,7 @@ use App\Models\Santri;
 use Illuminate\Support\Facades\DB;
 use App\Exports\DataExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminController extends Controller
 {
@@ -151,5 +152,21 @@ class AdminController extends Controller
 
         return response()->json(['message' => 'Data berhasil disimpan']);
     }
+
+    public function deleteAll(Request $request)
+    {
+        $adminPin = '123456'; 
+    
+        if ($request->pin !== $adminPin) {
+            return redirect()->back()->with('error', 'PIN salah! Penghapusan data dibatalkan.');
+        }
+    
+        MasterMDT::truncate(); 
+        return redirect()->back()->with('success', 'Semua data berhasil dihapus.');
+    }
+
+    
+
+    
 
 }

@@ -7,9 +7,9 @@ class MasterMdt extends Model
 {
     use HasFactory;
 
-    public $timestamps = false; // Menonaktifkan timestamps
+    public $timestamps = false; 
 
-    protected $table = 'master_mdt'; // Nama tabel di database
+    protected $table = 'master_mdt';
 
     protected $fillable = [
         'kode_mdt',

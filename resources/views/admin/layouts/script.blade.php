@@ -178,4 +178,61 @@
         });
     }
 }); 
+function openDeleteModal() {
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+
+    function submitDelete() {
+        const pin = document.getElementById('deletePin').value;
+        if (pin === '') {
+            alert('PIN tidak boleh kosong!');
+            return;
+        }
+
+        if (!confirm('Apakah Anda yakin ingin menghapus semua data?')) {
+            return;
+        }
+
+        document.getElementById('hiddenPin').value = pin;
+        document.getElementById('deleteForm').submit();
+    }
+    function createChart(canvasId, color) {
+        var ctx = document.getElementById(canvasId).getContext("2d");
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["", "", "", "", "", "", ""],
+                datasets: [{
+                    data: [10, 15, 8, 12, 10, 14, 9],
+                    borderColor: color,
+                    backgroundColor: color + "33",
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { display: false },
+                    y: { display: false }
+                },
+                elements: {
+                    point: { radius: 0 }
+                }
+            }
+        });
+    }
+
+    createChart("chartLembaga", "#3b82f6");
+    createChart("chartSantri", "#10b981");
+    createChart("chartDesa", "#facc15");
+    createChart("chartKecamatan", "#ef4444");
+    createChart("chartSantriLaki", "#a855f7");
+    createChart("chartSantriPerempuan", "#ec4899");
 </script>

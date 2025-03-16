@@ -3,12 +3,21 @@
 
 <!-- Tombol untuk membuka modal -->
 <a href="#" @click="openModal = true" 
-class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rounded cursor-pointer">
+   class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rounded cursor-pointer">
     <div class="flex items-center">
         <i data-lucide="building"></i>
         <span class="ml-2">Tambah Data</span>
     </div>
 </a>
+
+<!-- Tombol Cetak Kartu -->
+<div class="mt-4 text-center">
+<a href="{{ route('cetak.kartu') }}" target="_blank" 
+   class="bg-green-500 text-white px-6 py-3 rounded text-lg">
+    Cetak Kartu
+</a>
+
+</div>
 
 <!-- Popup Modal Tambah Lembaga -->
 <div x-show="openModal" x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -136,7 +145,6 @@ class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rou
             </div>
         </form>
     </div>
-
 </div>
 </div>
 </nav>

@@ -1,6 +1,9 @@
 <?php
 
-use App\Http\Controllers\{ProfileController, AuthenticatedSessionController, UjianController, AuthController, AdminController, UserController, LoginController, MasterMDTController, DataController, LembagaController, ImportController, ExportController, PesertaController};
+use App\Http\Controllers\{ProfileController, AuthenticatedSessionController,
+    UjianController, AuthController, AdminController, UserController, LoginController, 
+    MasterMDTController, DataController, LembagaController, ImportController, ExportController, 
+    PesertaController,CetakController};
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\{Route, Auth, DB};
 use Illuminate\Http\Request;
@@ -57,6 +60,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/generate-no-peserta', [PesertaController::class, 'generateNoPeserta'])->name('generate.no_peserta');
     Route::put('/master-mdt/update', [MasterMDTController::class, 'update'])->name('master_mdt.update');
     Route::post('/save-no-peserta', [MasterMDTController::class, 'saveNoPeserta'])->name('save.no_peserta');
+    Route::delete('/delete-all', [AdminController::class, 'deleteAll'])->name('delete.all');
+    Route::get('/cetak-kartu', [CetakController::class, 'cetak'])->name('cetak.kartu');
 });
 
 // Route untuk logout menggunakan controller
