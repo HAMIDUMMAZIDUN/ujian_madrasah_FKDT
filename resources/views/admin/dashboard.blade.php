@@ -47,9 +47,6 @@
         <!--tambahData-->
         <br>
         @include('admin.layouts.tambahdata')
-       
-        <!-- Cetak Kartu-->
-        @include('admin.layouts.cetakkartu')
 
         <!-- Main Content -->
         @include('admin.layouts.maincontent')
