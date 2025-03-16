@@ -21,7 +21,7 @@ class DataImport implements ToModel, WithHeadingRow
             'nsdt' => $row['nsdt'] ?? null,
             'no_hp' => $row['no_hp'] ?? null,
             'nama_kepala_MDT' => $row['nama_kepala_mdt'] ?? null,
-            'no_peserta_ujian' => !empty($row['no_peserta_ujian']) ? $row['no_peserta_ujian'] : null,
+            'no_peserta_ujian' => $row['no_peserta_ujian'] ?? '-',
             'nis' => $row['nis'] ?? null,
             'nisn' => $row['nisn'] ?? null,
             'no_urut_santri_diniyah' => $row['no_urut_santri_diniyah'] ?? null,
@@ -38,6 +38,8 @@ class DataImport implements ToModel, WithHeadingRow
             'alamat_siswa_kec' => $row['alamat_siswa_kec'] ?? null,
             'asal_sekolah_formal' => $row['asal_sekolah_formal'] ?? null,
             'NIK_santri' => $row['nik_santri'] ?? null,
+            'updated_at'=> now(),
+            'created_at'=> now()
         ]);
     }
 

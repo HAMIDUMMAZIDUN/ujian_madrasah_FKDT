@@ -2,11 +2,16 @@
 <script>
         lucide.createIcons();
 
-        // Toggle menu pengguna
-        const userMenuButton = document.getElementById('user-menu-button');
-        const userMenu = document.getElementById('user-menu');
+        document.addEventListener("DOMContentLoaded", function () {
+    lucide.createIcons();
 
-        userMenuButton.addEventListener('click', () => {
+    // Toggle menu pengguna
+    const userMenuButton = document.getElementById('user-menu-button');
+    const userMenu = document.getElementById('user-menu');
+
+    if (userMenuButton && userMenu) {
+        userMenuButton.addEventListener('click', (event) => {
+            event.stopPropagation();
             userMenu.classList.toggle('hidden');
         });
 
@@ -15,46 +20,45 @@
                 userMenu.classList.add('hidden');
             }
         });
+    }
 
-        // Tampilkan data tersembunyi
-        const viewAllButton = document.getElementById('view-all-btn');
-        if (viewAllButton) {
-            viewAllButton.addEventListener('click', function () {
-                document.getElementById('hidden-data').classList.toggle('hidden');
-                this.style.display = 'none';
-            });
-        }
+    // Tampilkan data tersembunyi
+    const viewAllButton = document.getElementById('view-all-btn');
+    if (viewAllButton) {
+        viewAllButton.addEventListener('click', function () {
+            document.getElementById('hidden-data')?.classList.toggle('hidden');
+            this.style.display = 'none';
+        });
+    }
 
-        // Event listener perubahan pada select kecamatan
-        const kecamatanSelect = document.getElementById('kecamatan');
-        const desaSelect = document.getElementById('desa');
+    // Event listener perubahan pada select kecamatan
+    const kecamatanSelect = document.getElementById('kecamatan');
+    const desaSelect = document.getElementById('desa');
 
-        if (kecamatanSelect && desaSelect) {
-            kecamatanSelect.addEventListener('change', function () {
-                fetchDesa(this.value, desaSelect);
-            });
-        }
+    if (kecamatanSelect && desaSelect) {
+        kecamatanSelect.addEventListener('change', function () {
+            fetchDesa(this.value, desaSelect);
+        });
+    }
 
-        // Event listener perubahan warna pada select
-        const selects = document.querySelectorAll("select");
-        selects.forEach(select => {
-            select.addEventListener("change", function () {
-                this.classList.toggle("bg-green-500", this.value !== "");
-                this.classList.toggle("bg-red-500", this.value === "");
+    // Event listener perubahan warna pada select
+    document.querySelectorAll("select").forEach(select => {
+        select.addEventListener("change", function () {
+            this.classList.toggle("bg-green-500", this.value !== "");
+            this.classList.toggle("bg-red-500", this.value === "");
+        });
+    });
+
+    // Perubahan warna saat filter dikirim
+    const filterForm = document.getElementById("filter-form");
+    if (filterForm) {
+        filterForm.addEventListener("submit", function () {
+            document.querySelectorAll("select").forEach(select => {
+                select.classList.remove("bg-red-500");
+                select.classList.add("bg-green-500");
             });
         });
-
-        // Perubahan warna saat filter dikirim
-        const filterForm = document.getElementById("filter-form");
-        if (filterForm) {
-            filterForm.addEventListener("submit", function () {
-                selects.forEach(select => {
-                    select.classList.remove("bg-red-500");
-                    select.classList.add("bg-green-500");
-                });
-            });
-        }
-    });
+    }
 
     // Fungsi untuk mengambil daftar desa berdasarkan kecamatan
     function fetchDesa(kecamatan, desaDropdown) {
@@ -74,26 +78,6 @@
                 .catch(error => console.error('Error:', error));
         }
     }
-
-    // jQuery untuk pengambilan desa
-    $(document).ready(function () {
-            $('#kecamatan').change(function () {
-                var kecamatan = $(this).val();
-                $('#desa').html('<option>Loading...</option>');
-
-                $.ajax({
-                    url: "{{ url('/get-desa') }}", // Pastikan URL sesuai dengan route
-                    type: "GET",
-                    data: { kecamatan: kecamatan },
-                    success: function (data) {
-                        $('#desa').html('<option value="">Semua Desa</option>');
-                        $.each(data, function (index, desa) {
-                            $('#desa').append('<option value="' + desa + '">' + desa + '</option>');
-                        });
-                    }
-                });
-            });
-        });
 
     // Alpine.js untuk modal tambah lembaga
     document.addEventListener('alpine:init', () => {
@@ -124,7 +108,6 @@
                         },
                         body: JSON.stringify(this.form)
                     });
-
                     let data = await response.json();
                     alert(data.message);
                     this.openModal = false;
@@ -134,66 +117,65 @@
             }
         }));
     });
-    document.addEventListener("DOMContentLoaded", function () {
-        const importButton = document.getElementById("importDropdown");
-        const importMenu = document.getElementById("importMenu");
 
-        if (importButton && importMenu) {
-            // Toggle dropdown saat tombol diklik
-            importButton.addEventListener("click", function (event) {
-                event.stopPropagation(); // Mencegah event click menyebar ke document
-                importMenu.classList.toggle("hidden");
-            });
+    // Toggle dropdown import
+    const importButton = document.getElementById("importDropdown");
+    const importMenu = document.getElementById("importMenu");
 
-            // Tutup dropdown jika klik di luar menu
-            document.addEventListener("click", function (event) {
-                if (!importMenu.contains(event.target) && !importButton.contains(event.target)) {
-                    importMenu.classList.add("hidden");
-                }
-            });
-        }
+    if (importButton && importMenu) {
+        importButton.addEventListener("click", function (event) {
+            event.stopPropagation();
+            importMenu.classList.toggle("hidden");
+        });
 
-        // Update form export saat filter berubah
-        const filterForm = document.getElementById("filter-form");
-        if (filterForm) {
-            filterForm.addEventListener("change", function () {
-                document.getElementById("export-kecamatan").value = document.getElementById("kecamatan")?.value || "";
-                document.getElementById("export-desa").value = document.getElementById("desa")?.value || "";
-                document.getElementById("export-kode_mdt").value = document.getElementById("kode_mdt")?.value || "";
-            });
-        }
+        document.addEventListener("click", function (event) {
+            if (!importMenu.contains(event.target) && !importButton.contains(event.target)) {
+                importMenu.classList.add("hidden");
+            }
+        });
+    }
 
-        // Update form export saat halaman dimuat ulang
-        document.getElementById("export-kecamatan").value = document.getElementById("kecamatan")?.value || "";
-        document.getElementById("export-desa").value = document.getElementById("desa")?.value || "";
-        document.getElementById("export-kode_mdt").value = document.getElementById("kode_mdt")?.value || "";
-    });
-    document.getElementById('searchBox').addEventListener('input', function () {
-        let query = this.value;
-        let resultsBox = document.getElementById('searchResults');
-        if (query.length > 2) {
-            fetch(`{{ route('search.santri') }}?q=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    resultsBox.innerHTML = '';
-                    if (data.length > 0) {
-                        resultsBox.classList.remove('hidden');
-                        data.forEach(santri => {
-                            let li = document.createElement('li');
-                            li.textContent = santri.nama;
-                            li.classList.add('p-2', 'hover:bg-gray-200', 'cursor-pointer');
-                            li.addEventListener('click', function () {
-                                document.getElementById('searchBox').value = santri.nama;
-                                resultsBox.classList.add('hidden');
+    // Update form export saat filter berubah
+    if (filterForm) {
+        filterForm.addEventListener("change", function () {
+            document.getElementById("export-kecamatan").value = document.getElementById("kecamatan")?.value || "";
+            document.getElementById("export-desa").value = document.getElementById("desa")?.value || "";
+            document.getElementById("export-kode_mdt").value = document.getElementById("kode_mdt")?.value || "";
+        });
+    }
+
+    // Search box event listener
+    const searchBox = document.getElementById('searchBox');
+    const resultsBox = document.getElementById('searchResults');
+    
+    if (searchBox && resultsBox) {
+        searchBox.addEventListener('input', function () {
+            let query = this.value;
+            if (query.length > 2) {
+                fetch(`{{ route('search.santri') }}?q=${query}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        resultsBox.innerHTML = '';
+                        if (data.length > 0) {
+                            resultsBox.classList.remove('hidden');
+                            data.forEach(santri => {
+                                let li = document.createElement('li');
+                                li.textContent = santri.nama;
+                                li.classList.add('p-2', 'hover:bg-gray-200', 'cursor-pointer');
+                                li.addEventListener('click', function () {
+                                    searchBox.value = santri.nama;
+                                    resultsBox.classList.add('hidden');
+                                });
+                                resultsBox.appendChild(li);
                             });
-                            resultsBox.appendChild(li);
-                        });
-                    } else {
-                        resultsBox.classList.add('hidden');
-                    }
-                });
-        } else {
-            resultsBox.classList.add('hidden');
-        }
-    });
+                        } else {
+                            resultsBox.classList.add('hidden');
+                        }
+                    });
+            } else {
+                resultsBox.classList.add('hidden');
+            }
+        });
+    }
+}); 
 </script>

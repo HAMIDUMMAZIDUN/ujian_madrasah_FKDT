@@ -29,7 +29,6 @@
             <th class="border border-gray-300 px-4 py-2">Alamat Santri Desa</th>
             <th class="border border-gray-300 px-4 py-2">Alamat Santri Kecamatan</th>
             <th class="border border-gray-300 px-4 py-2">Asal Sekolah Formal</th>
-            <th class="border border-gray-300 px-4 py-2">NIK Santri</th>
             <th class="border border-gray-300 px-4 py-2">Aksi</th>
         </tr>
     </thead>
@@ -64,7 +63,6 @@
             <td class="border border-gray-300 px-4 py-2">{{ $item->alamat_siswa_desa }}</td>
             <td class="border border-gray-300 px-4 py-2">{{ $item->alamat_siswa_kec}}</td>
             <td class="border border-gray-300 px-4 py-2">{{ $item->asal_sekolah_formal }}</td>
-            
             <td class="border border-gray-300 px-4 py-2 text-center">
                 <button onclick="openEditModal({{ json_encode($item) }})"
                         class="bg-blue-500 text-white px-3 py-1 rounded">Edit</button>
@@ -135,7 +133,6 @@
                     <label class="block text-gray-700">No Peserta Ujian</label>
                     <div class="flex gap-2">
                         <input type="text" id="editNoPeserta" name="no_peserta_ujian" class="w-full border p-2 rounded">
-                        <button type="button" id="generateNoPeserta" class="bg-blue-500 text-white px-4 py-2 rounded">Generate</button>
                         </div>
                     </div>
                     <div>

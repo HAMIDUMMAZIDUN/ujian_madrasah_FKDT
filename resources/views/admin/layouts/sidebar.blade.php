@@ -17,22 +17,23 @@
             <br>
 
             <!-- Pilih Kecamatan -->
-            <label for="kecamatan" class="block text-black font-semibold">Pilih Kecamatan</label>
-            <select name="kecamatan" id="kecamatan" class="w-full p-2 text-white font-semibold border rounded bg-red-500">
-                <option value="">Semua Kecamatan</option>
-                @foreach($list_kecamatan as $kecamatan)
-                    <option value="{{ $kecamatan }}">{{ $kecamatan }}</option>
-                @endforeach
-            </select>
-        </div>
+            <div class="mb-4">
+                <label for="kecamatan" class="block text-black font-semibold">Pilih Kecamatan</label>
+                <select name="kecamatan" id="kecamatan" class="w-full p-2 text-white font-semibold border rounded bg-red-500">
+                    <option value="">Semua Kecamatan</option>
+                    @foreach($list_kecamatan as $kecamatan)
+                        <option value="{{ $kecamatan }}">{{ $kecamatan }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <!-- Pilih Desa -->
-        <div class="mb-4">
-            <label for="desa" class="block text-black font-semibold">Pilih Desa</label>
-            <select name="desa" id="desa" class="w-full p-2 text-white font-semibold border rounded bg-red-500">
-                <option value="">Semua Desa</option>
-            </select>
-        </div>
+            <!-- Pilih Desa -->
+            <div class="mb-4">
+                <label for="desa" class="block text-black font-semibold">Pilih Desa</label>
+                <select name="desa" id="desa" class="w-full p-2 text-white font-semibold border rounded bg-red-500">
+                    <option value="">Semua Desa</option>
+                </select>
+            </div>
 
         <!-- Pilih Kode MDT -->
         <div class="mb-4">

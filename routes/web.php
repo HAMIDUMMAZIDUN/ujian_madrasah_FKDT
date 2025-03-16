@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/get-kecamatan', [DataController::class, 'getKecamatan']);
     Route::get('/get-desa/{kecamatan_id}', [DataController::class, 'getDesa']);
+    Route::get('/get-desa', [AdminController::class, 'getDesaByKecamatan']);
     Route::get('/get-lembaga/{desa_id}', [DataController::class, 'getLembaga']);
     Route::get('/filter-data', [DataController::class, 'filterData']);
     Route::get('/get-all-data', [DataController::class, 'getAllData']);
@@ -50,7 +51,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/update/{id}', [LembagaController::class, 'update'])->name('update');
     Route::get('/admin/get-desa', [AdminController::class, 'getDesaByKecamatan'])->name('admin.getDesaByKecamatan');
     Route::get('/download-template', [ImportController::class, 'downloadTemplate'])->name('download.template');
-    Route::post('/import-excel', [ImportController::class, 'importExcel'])->name('import.excel');
+    Route::post('/import', [ImportController::class, 'importExcel'])->name('import.excel');
     Route::get('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
     Route::get('/search/santri', [AdminController::class, 'search'])->name('search.santri');
     Route::get('/generate-no-peserta', [PesertaController::class, 'generateNoPeserta'])->name('generate.no_peserta');

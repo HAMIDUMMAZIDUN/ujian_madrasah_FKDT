@@ -49,5 +49,13 @@ class MasterMdtController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Data berhasil diperbarui']);
     }
+    public function index()
+    {
+        // Mengambil semua data dari tabel master_mdt
+        $data = MasterMdt::all();
+        
+        // Mengirim data ke view
+        return view('database.mastermdt', compact('data'));
+    }
     
 }

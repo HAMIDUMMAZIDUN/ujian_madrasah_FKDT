@@ -21,12 +21,12 @@ class ImportController extends Controller
         $request->validate([
             'file' => 'required|mimes:xlsx,xls,csv'
         ]);
-
+    
         try {
             Excel::import(new DataImport, $request->file('file'));
             return back()->with('success', 'Data berhasil diimport!');
         } catch (\Exception $e) {
-            return back()->with('error', 'Terjadi kesalahan saat mengimpor data!');
+            dd($e->getMessage()); // Debug error
         }
     }
 }
