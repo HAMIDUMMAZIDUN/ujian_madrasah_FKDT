@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>User Dashboard</title>
     <link rel="icon" type="image/png" href="{{ asset('images/FKDT.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/filter.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-
     <style>
         [x-cloak] { display: none !important; }
     </style>
 </head>
 <body class="bg-gray-100">
-<div x-data="{ sidebarOpen: true }" class="flex">
+<div x-data="{ sidebarOpen: true }" class="flex h-screen">
     <!-- Sidebar -->
     <aside :class="sidebarOpen ? 'w-64' : 'w-16'" class="h-screen bg-gray-900 text-gray-200 p-4 shadow-md transition-all duration-300 relative">
        
@@ -39,13 +44,14 @@
         <div x-data="{ openModal: false, formHtml: '' }">
 
         <!--tambahData-->
+        <br>
         @include('user.layouts.tambahdata')
-       
+
         <!-- Main Content -->
         @include('user.layouts.maincontent')
 
         <!--Script-->
         @include('user.layouts.script')
-
+        
 </body>
 </html>

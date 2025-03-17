@@ -5,41 +5,46 @@ use App\Models\Santri;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Carbon\Carbon;
+use App\Models\MasterMDT;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class DataImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
-        return new Santri([
-            'kode_mdt' => $row['kode_mdt'] ?? null,
-            'nama_lembaga_MDT' => $row['nama_lembaga_mdt'] ?? null,
-            'alamat_madrasah' => $row['alamat_madrasah'] ?? null,
-            'rt' => $row['rt'] ?? null,
-            'rw' => $row['rw'] ?? null,
-            'desa' => $row['desa'] ?? null,
-            'kecamatan' => $row['kecamatan'] ?? null,
-            'nsdt' => $row['nsdt'] ?? null,
-            'no_hp' => $row['no_hp'] ?? null,
-            'nama_kepala_MDT' => $row['nama_kepala_mdt'] ?? null,
-            'no_peserta_ujian' => $row['no_peserta_ujian'] ?? '-',
-            'nis' => $row['nis'] ?? null,
-            'nisn' => $row['nisn'] ?? null,
-            'no_urut_santri_diniyah' => $row['no_urut_santri_diniyah'] ?? null,
-            'nama_santri' => $row['nama_santri'] ?? null,
-            'jenis_kelamin' => $row['jenis_kelamin'] ?? null,
-            'tempat_lahir' => $row['tempat_lahir'] ?? null,
-            'tanggal_lahir' => isset($row['tanggal_lahir']) ? $this->transformDate($row['tanggal_lahir']) : null,
-            'nama_ayah' => $row['nama_ayah'] ?? null,
-            'nama_ibu' => $row['nama_ibu'] ?? null,
-            'alamat_siswa_kp' => $row['alamat_siswa_kp'] ?? null,
-            'alamat_siswa_rt' => $row['alamat_siswa_rt'] ?? null,
-            'alamat_siswa_rw' => $row['alamat_siswa_rw'] ?? null,
-            'alamat_siswa_desa' => $row['alamat_siswa_desa'] ?? null,
-            'alamat_siswa_kec' => $row['alamat_siswa_kec'] ?? null,
-            'asal_sekolah_formal' => $row['asal_sekolah_formal'] ?? null,
-            'NIK_santri' => $row['nik_santri'] ?? null,
-            'updated_at'=> now(),
-            'created_at'=> now()
+        return new MasterMDT([
+            
+            'kode_mdt' => $row['kode_mdt'],
+            'nama_lembaga_MDT' => $row['nama_lembaga_mdt'],
+            'alamat_madrasah' => $row['alamat_madrasah'],
+            'rt'=> !empty($row['rt']) ? (int) $row['rt'] : null,  
+            'rw'=> !empty($row['rw']) ? (int) $row['rw'] : null,
+            'desa' => $row['desa'],
+            'kecamatan' => $row['kecamatan'],
+            'nsdt' => $row['nsdt'],
+            'no_hp' => $row['no_hp'],
+            'nama_kepala_MDT' => $row['nama_kepala_mdt'],
+            'no_peserta_ujian' => $row['no_peserta_ujian'],
+            'nisn' => !empty($row['nisn']) ? (int) $row['nisn'] : null,
+            'nis' => !empty($row['nis']) ? (int) $row['nis'] : null,
+            'no_urut_santri_diniyah' => $row['no_urut_santri_diniyah'],
+            'nama_santri' => $row['nama_santri'],
+            'jenis_kelamin' => $row['jenis_kelamin'],
+            'tempat_lahir' => $row['tempat_lahir'],
+            'tanggal_lahir'     => isset($row['tanggal_lahir']) 
+            ? (is_numeric($row['tanggal_lahir']) 
+                ? Date::excelToDateTimeObject($row['tanggal_lahir'])->format('Y-m-d') 
+                : date('Y-m-d', strtotime($row['tanggal_lahir'])))
+            : null,
+            'nama_ayah' => $row['nama_ayah'],
+            'nama_ibu' => $row['nama_ibu'],
+            'alamat_siswa_kp' => $row['alamat_siswa_kp'],
+            'alamat_siswa_rt' => !empty($row['alamat_siswa_rt']) ? (int) $row['alamat_siswa_rt'] : null,
+            'alamat_siswa_rw'   => !empty($row['alamat_siswa_rw']) ? (int) $row['alamat_siswa_rw'] : null,
+            'alamat_siswa_desa' => $row['alamat_siswa_desa'],
+            'alamat_siswa_kec' => $row['alamat_siswa_kec'],
+            'asal_sekolah_formal' => $row['asal_sekolah_formal'],
+            'NIK_santri' => !empty($row['NIK_santri']) ? (int) $row['NIK_santri'] : null,
         ]);
     }
 

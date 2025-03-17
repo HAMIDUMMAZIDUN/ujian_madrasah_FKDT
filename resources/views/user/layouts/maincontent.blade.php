@@ -1,112 +1,76 @@
-<main class="flex-1 p-6 relative overflow-x-auto overflow-y-auto">
+<main class="flex-1 p-3 md:p-4 relative overflow-x-auto overflow-y-auto">
 
-            <!-- User Profile (Top Right) -->
-            <div class="absolute top-0 right-0 m-4 flex items-center">
-                <span class="mr-2 font-semibold">{{ Auth::user()->name }}</span>
-                <div class="relative">
-                <button id="user-menu-button" class="flex items-center space-x-2 p-2 bg-gray-200 rounded-full focus:outline-none">
-                    <img src="{{ asset('images/FKDT.png') }}" 
-                        alt="User" class="w-8 h-8 rounded-full">
+     <!-- User Profile (Top Right) -->
+        <div class="absolute top-0 right-0 m-3 flex items-center right">
+            <div>
+                <button type="button" class="flex items-center space-x-2 focus:outline-none" id="menu-button">
+                <span class="mr-2 text-sm font-semibold">{{ Auth::user()->name }}</span>    
+                <img src="{{ asset('images/FKDT.png') }}" alt="User" class="w-7 h-7 rounded-full">
                 </button>
-
-                    <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg">
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-200">Ubah Password</a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
-                        </form>
-                    </div>
-                </div>
             </div>
-                   
-   <!-- Statistik -->
-    <br>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
-        <div class="p-4 bg-blue-500 text-white shadow rounded-lg text-center">
-            <div class="flex justify-center mb-2">
-                <i data-lucide="school" class="w-8 h-8"></i>
-            </div>
-            <h2 class="text-xl font-semibold">Jumlah Lembaga</h2>
-            <p class="text-2xl font-bold">{{ $jumlah_lembaga }}</p>
-        </div>
-        <div class="p-4 bg-green-500 text-white shadow rounded-lg text-center">
-            <div class="flex justify-center mb-2">
-                <i data-lucide="users" class="w-8 h-8"></i>
-            </div>
-            <h2 class="text-xl font-semibold">Jumlah Santri</h2>
-            <p class="text-2xl font-bold">{{ $jumlah_santri }}</p>
-        </div>
-        <div class="p-4 bg-yellow-500 text-white shadow rounded-lg text-center">
-            <div class="flex justify-center mb-2">
-                <i data-lucide="map-pin" class="w-8 h-8"></i>
-            </div>
-            <h2 class="text-xl font-semibold">Jumlah Desa</h2>
-            <p class="text-2xl font-bold">{{ $jumlah_desa }}</p>
-        </div>
-        <div class="p-4 bg-red-500 text-white shadow rounded-lg text-center">
-            <div class="flex justify-center mb-2">
-                <i data-lucide="map" class="w-8 h-8"></i>
-            </div>
-            <h2 class="text-xl font-semibold">Jumlah Kecamatan</h2>
-            <p class="text-2xl font-bold">{{ $jumlah_kecamatan }}</p>
-        </div>
-    </div>
-
-            <!-- Button Download Excel & Import -->
-<br>
-<div class="container-fluid">
-    <div class="d-flex align-items-center gap-2 mb-3">
-        
-        <!-- Tombol Download Excel -->
-        <form method="GET" id="export-form" action="{{ route('export.excel') }}">
-            <input type="hidden" name="kecamatan" id="export-kecamatan">
-            <input type="hidden" name="desa" id="export-desa">
-            <input type="hidden" name="kode_mdt" id="export-kode_mdt"> 
-            <button type="submit" class="bg-green-500 text-white font-bold py-2 px-3 rounded">
-                Download Excel
-            </button>
-        </form>
-
-        <!-- Button Import -->
-        <div class="dropdown">
-            <button class="btn text-white fw-bold px-4 py-2" type="button" id="importDropdown"
-                onclick="toggleImportDropdown()"
-                style="background: #007bff; border: none; border-radius: 8px;">
-                Import
-            </button>
-
-            <div id="importMenu" class="dropdown-menu p-3 shadow text-center"
-                style="border-radius: 10px; min-width: 250px; display: none;">
-                
-                <!-- Button Download Template -->
-                <button class="btn btn-primary w-100 mb-2 fw-bold" onclick="window.location.href='{{ route('download.template') }}'">
-                    Download Template
-                </button>
-
-                <!-- Form Upload File -->
-                <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data">
+            <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg">
+                <a href="{{ route('password.change') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Ubah Password</a>
+                <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <input type="file" name="file" class="form-control mb-2" required>
-                    <button type="submit" class="btn text-white fw-bold w-100 py-2"
-                        style="background: linear-gradient(90deg, #28a745 0%, #218838 100%);
-                        border: none; border-radius: 6px;">
-                        Upload File
-                    </button>
+                    <button type="submit" class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100">Logout</button>
                 </form>
             </div>
         </div>
+
+
+    <!-- Statistik -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-12">
+        @php
+            $stats = [
+                ['label' => 'Jumlah Lembaga', 'value' => $jumlah_lembaga, 'chart' => 'chartLembaga'],
+                ['label' => 'Jumlah Santri', 'value' => $jumlah_santri, 'chart' => 'chartSantri'],
+                ['label' => 'Jumlah Desa', 'value' => $jumlah_desa, 'chart' => 'chartDesa'],
+                ['label' => 'Jumlah Kecamatan', 'value' => $jumlah_kecamatan, 'chart' => 'chartKecamatan'],
+                ['label' => 'Jumlah Santri Laki-laki', 'value' => $jumlah_santri_laki, 'chart' => 'chartSantriLaki'],
+                ['label' => 'Jumlah Santri Perempuan', 'value' => $jumlah_santri_perempuan, 'chart' => 'chartSantriPerempuan']
+            ];
+        @endphp
+
+        @foreach($stats as $stat)
+            <div class="p-6 text-black shadow-lg rounded-xl transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col items-center text-center">
+                <h2 class="text-lg font-semibold">{{ $stat['label'] }}</h2>
+                <p class="text-3xl font-bold">{{ $stat['value'] }}</p>
+                <div class="h-24 w-full">
+                    <canvas id="{{ $stat['chart'] }}"></canvas>
+                </div>
+            </div>
+        @endforeach
     </div>
-</div>
+
+    <!-- Button Download Excel & Import -->
+    <div class="mt-4">
+        <div class="flex flex-col sm:flex-row items-center gap-3">
+            <form method="GET" id="export-form" action="{{ route('export.excel') }}">
+                <button type="submit" class="bg-green-500 text-white font-bold py-1.5 px-3 rounded">Download Excel</button>
+            </form>
+            <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row gap-2">
+                @csrf
+                <a href="{{ route('download.template') }}" class="bg-blue-500 text-white px-3 py-1.5 rounded">Download Template</a>
+                <input type="file" name="file" class="border rounded px-2 py-1 text-sm">
+                <button type="submit" class="bg-green-500 text-white px-3 py-1.5 rounded">Upload</button>
+            </form>
+        </div>
+    </div>
 
     <!-- TABEL DETAIL DATA -->
-<div class="mt-6 bg-white p-6 shadow rounded-lg overflow-auto h-[calc(90vh-90px)]">
-    <div class="text-center mt-4">
-        @if($data->isEmpty())
-            <p class="text-gray-500">Tidak ada data yang ditemukan.</p>
-        @else
-            @include('database.mastermdt', compact('data'))
-        @endif
-
-    <div id="hidden-data" class="hidden mt-4 overflow-auto">
+    <div class="flex flex-col h-[70vh] mt-3">
+        <div class="text-center flex-grow">
+            @if($data->isEmpty())
+                <p class="text-gray-500 text-sm">Tidak ada data yang ditemukan.</p>
+            @else
+                <div class="max-h-[60vh] overflow-auto border rounded-lg shadow-md p-3 text-sm">
+                    @include('database.layout.usermastermdt', compact('data'))
+                </div>
+            @endif
+        </div>
     </div>
-</div>
+</main>
+
+
+
+

@@ -1,33 +1,22 @@
- <!--tambah lembaga-->
- <div x-data="{ openModal: false }">
+<div x-data="{ openModal: false }">
+    <!-- Tombol untuk membuka modal -->
+    <a href="#" @click="openModal = true" 
+       class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rounded cursor-pointer">
+        <div class="flex items-center">
+            <i data-lucide="building"></i>
+            <span class="ml-2">Tambah Data</span>
+        </div>
+    </a>
 
-<!-- Tombol untuk membuka modal -->
-<a href="#" @click="openModal = true" 
-   class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rounded cursor-pointer">
-    <div class="flex items-center">
-        <i data-lucide="building"></i>
-        <span class="ml-2">Tambah Data</span>
-    </div>
-</a>
+    <!-- Popup Modal Tambah Lembaga -->
+    <div x-show="openModal" x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-5xl h-[90vh] overflow-y-auto" @click.away="openModal = false">
+            <h2 class="text-2xl text-black font-semibold mb-4 text-center">Tambah Data</h2>
+            <button @click="openModal = false" class="absolute top-2 right-2 text-black">✖</button>
 
-<!-- Tombol Cetak Kartu -->
-<div class="mt-4 text-center">
-<a href="{{ route('cetak.kartu') }}" target="_blank" 
-   class="bg-green-500 text-white px-6 py-3 rounded text-lg">
-    Cetak Kartu
-</a>
-
-</div>
-
-<!-- Popup Modal Tambah Lembaga -->
-<div x-show="openModal" x-cloak class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-<div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-5xl h-[90vh] overflow-y-auto" @click.away="openModal = false">
-    <h2 class="text-2xl text-black font-semibold mb-4 text-center">Tambah Data</h2>
-
-    <!-- Form Tambah Lembaga -->
-    <form action="{{ route('lembaga.store') }}" method="POST">
-        @csrf
-            <div class="grid grid-cols-3 gap-4">
+            <!-- Form -->
+            <form action="{{ route('lembaga.store') }}" method="POST">
+                @csrf
                 <div>
                     <label class="text-black">Kode MDT:</label>
                     <input type="text" name="kode_mdt" required class="border p-2 rounded w-full text-white" oninput="this.style.backgroundColor = this.value ? 'green' : 'white'">
@@ -40,7 +29,6 @@
                     <label class="text-black">Alamat Madrasah:</label>
                     <input type="text" name="alamat_madrasah" required class="border p-2 rounded w-full text-white" oninput="this.style.backgroundColor = this.value ? 'green' : 'white'">
                 </div>
-            </div>
             <div class="grid grid-cols-3 gap-4 mt-4">
                 <div>
                     <label class="text-black">RT:</label>
@@ -138,7 +126,6 @@
                     <label class="text-black">NIK Santri:</label>
                     <input type="number" name="NIK_Santri" class="border p-2 rounded w-full text-white" oninput="this.style.backgroundColor = this.value ? 'green' : 'white'">
                 </div>
-
             </div>
             <div class="mt-4 text-center">
                 <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded text-lg">Simpan</button>

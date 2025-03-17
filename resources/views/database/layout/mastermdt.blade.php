@@ -49,7 +49,7 @@
             <td class="border border-gray-300 px-4 py-2">{{ $item->no_peserta_ujian ?? 'Belum Digenerate' }}</td>
             <td class="border border-gray-300 px-4 py-2">{{ $item->nis }}</td>
             <td class="border border-gray-300 px-4 py-2">{{ $item->nisn }}</td>
-            <td class="border border-gray-300 px-4 py-2">{{ $item->NIK_Santri ?? 'Belum Digenerate' }}</td>
+            <td class="border border-gray-300 px-4 py-2">{{ $item->NIK_santri ?? 'Belum Diedit' }}</td>
             <td class="border border-gray-300 px-4 py-2">{{ $item->no_urut_santri_diniyah }}</td>
             <td class="border border-gray-300 px-4 py-2">{{ $item->nama_santri }}</td>
             <td class="border border-gray-300 px-4 py-2">{{ $item->jenis_kelamin }}</td>
@@ -144,6 +144,10 @@
                         <input type="text" id="editNISN" name="nisn" class="w-full border p-2 rounded">
                     </div>
                     <div>
+                        <label class="block text-gray-700">NIK Santri</label>
+                        <input type="text" id="editniksantri" name="NIK_santri" class="w-full border p-2 rounded">
+                    </div>
+                    <div>
                         <label class="block text-gray-700">No Urut Santri Diniyah</label>
                         <input type="text" id="editNoUrut" name="no_urut_santri_diniyah" class="w-full border p-2 rounded">
                     </div>
@@ -195,10 +199,6 @@
                         <label class="block text-gray-700">Asal Sekolah Formal </label>
                         <input type="text" id="editasalsekolahformal" name="asal_sekolah_formal" class="w-full border p-2 rounded">
                     </div>
-                    <div>
-                        <label class="block text-gray-700">NIK Santri</label>
-                        <input type="text" id="editniksantri" name="NIK_Santri" class="w-full border p-2 rounded">
-                    </div>
                 </div>
             </div>
 
@@ -226,6 +226,7 @@
         document.getElementById('editNoPeserta').value = window.data?.no_peserta_ujian || '';
         document.getElementById('editNIS').value = data.nis || '';
         document.getElementById('editNISN').value = data.nisn || '';
+        document.getElementById('editniksantri').value = data.NIK_Santri || '';
         document.getElementById('editNoUrut').value = data.no_urut_santri_diniyah || '';
         document.getElementById('editnamasantri').value = data.nama_santri || '';
         document.getElementById('editjeniskelamin').value = data.jenis_kelamin || '';
@@ -239,7 +240,7 @@
         document.getElementById('editalamatsiswadesa').value = data.alamat_siswa_desa || '';
         document.getElementById('editalamatsiswakec').value = data.alamat_siswa_kec || '';
         document.getElementById('editasalsekolahformal').value = data.asal_sekolah_formal || '';
-        document.getElementById('editniksantri').value = data.NIK_Santri || '';
+
         
         document.getElementById('editForm').action = `/update/${data.id}`;
         document.getElementById('editModal').classList.remove('hidden');

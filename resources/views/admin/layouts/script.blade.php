@@ -4,23 +4,11 @@
 
         document.addEventListener("DOMContentLoaded", function () {
     lucide.createIcons();
-
+        
     // Toggle menu pengguna
-    const userMenuButton = document.getElementById('user-menu-button');
-    const userMenu = document.getElementById('user-menu');
-
-    if (userMenuButton && userMenu) {
-        userMenuButton.addEventListener('click', (event) => {
-            event.stopPropagation();
-            userMenu.classList.toggle('hidden');
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
-                userMenu.classList.add('hidden');
-            }
-        });
-    }
+     document.getElementById('menu-button').addEventListener('click', function () {
+        document.getElementById('dropdown-menu').classList.toggle('hidden');
+    });
 
     // Tampilkan data tersembunyi
     const viewAllButton = document.getElementById('view-all-btn');

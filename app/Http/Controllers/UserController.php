@@ -28,4 +28,20 @@ class userController extends Controller
             'jumlah_kecamatan' => $jumlah_kecamatan, 
         ]);
     }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:6'
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password) // Hash password secara manual jika versi Laravel lama
+        ]);
+
+        return response()->json(['message' => 'User berhasil dibuat!', 'user' => $user]);
+    }
 }
