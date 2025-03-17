@@ -152,21 +152,4 @@ class AdminController extends Controller
 
         return response()->json(['message' => 'Data berhasil disimpan']);
     }
-
-    public function deleteAll(Request $request)
-    {
-        $adminPin = '123456'; 
-    
-        if ($request->pin !== $adminPin) {
-            return redirect()->back()->with('error', 'PIN salah! Penghapusan data dibatalkan.');
-        }
-    
-        MasterMDT::truncate(); 
-        return redirect()->back()->with('success', 'Semua data berhasil dihapus.');
-    }
-
-    
-
-    
-
 }

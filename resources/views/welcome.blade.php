@@ -6,6 +6,7 @@
     <title>Login - Aplikasi PDUM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-gradient-to-r from-green-400 to-green-700 flex items-center justify-center min-h-screen p-0 relative overflow-hidden">
     <!-- Hiasan Background Shape -->
@@ -14,10 +15,10 @@
     
     <!-- Layout dengan Gambar di Kiri dan Form di Kanan -->
     <div class="w-full h-screen flex flex-col md:flex-row relative z-10">
-    <!-- Bagian Kiri: Gambar Background Full -->
-    <div class="hidden md:flex md:w-1/2 relative">
-        <img src="{{ asset('images/background.jpg') }}" alt="Ilustrasi" class="absolute inset-0 w-full h-full object-cover">
-    </div>
+        <!-- Bagian Kiri: Gambar Background Full -->
+        <div class="hidden md:flex md:w-1/2 relative">
+            <img src="{{ asset('images/background.jpg') }}" alt="Ilustrasi" class="absolute inset-0 w-full h-full object-cover">
+        </div>
 
         <!-- Bagian Kanan: Form Login -->
         <div class="w-full md:w-1/2 h-full flex flex-col justify-center bg-white p-8 relative">
@@ -40,16 +41,19 @@
                 </div>
 
                 <button type="submit" class="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">Login</button>
-
-                @if(session('error'))
-                    <p class="text-red-500 text-sm mt-2 text-center">{{ session('error') }}</p>
-                @endif
             </form>
-
+            
             <div class="text-center mt-4 text-xs text-gray-500">
                 Tim Teknis DPC FKDT Kabupaten Bandung
             </div>
         </div>
     </div>
+
+    <!-- Cek Session Error -->
+    @if(session('error'))
+    <p class="text-red-500 text-center mt-2">Pesan Error: {{ session('error') }}</p>
+@endif
+
+
 </body>
 </html>

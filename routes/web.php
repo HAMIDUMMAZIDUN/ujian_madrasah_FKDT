@@ -39,8 +39,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/simpan-lembaga', [LembagaController::class, 'store'])->name('admin.simpan_lembaga');
     Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
     Route::get('/admin/get-desa', [AdminController::class, 'getDesaByKecamatan'])->name('admin.getDesaByKecamatan');
-    Route::get('/search/santri', [AdminController::class, 'search'])->name('search.santri');
-    Route::delete('/delete-all', [AdminController::class, 'deleteAll'])->name('delete.all');
+    Route::get('/search/santri', [AdminController::class, 'search'])->name('search.santri'); 
+    Route::post('/hapus-semua-data', function (Request $request) {
+        if ($request->pin !== '1234') { // Ganti dengan validasi PIN sesuai kebutuhan
+            return response()->json(['success' => false, 'message' => 'PIN salah!'], 400);
+        }
+    
+        // Hapus semua data di tabel tertentu
+        \DB::table('master_mdt')->truncate(); // Sesuaikan nama tabel
+    
+        return response()->json(['success' => true]);
+    })->name('hapus-semua-data')->middleware('auth');
     Route::get('/user/dashboard', [UserrController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/get-desa', [UserrController::class, 'getDesaByKecamatan']);
     Route::get('/user/download-excel', [UserrController::class, 'downloadExcel'])->name('user.downloadExcel');
@@ -48,7 +57,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/user/simpan-lembaga', [LembagaController::class, 'store'])->name('user.simpan_lembaga');
     Route::post('/user/store', [UserrController::class, 'store'])->name('user.store');
     Route::get('/user/get-desa', [UserrController::class, 'getDesaByKecamatan'])->name('user.getDesaByKecamatan');
-    Route::delete('/delete-all', [UserrController::class, 'deleteAll'])->name('delete.all');
     Route::get('/search/santri', [UserrController::class, 'search'])->name('search.santri');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

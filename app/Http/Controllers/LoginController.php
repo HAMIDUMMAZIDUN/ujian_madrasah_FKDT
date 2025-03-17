@@ -31,7 +31,7 @@ class LoginController extends Controller
             }
         }
 
-        return redirect()->back()->with('error', 'Email atau password salah.');
+        return redirect()->back()->with('error', 'Tes error SweetAlert!');
     }
 
     public function logout()
