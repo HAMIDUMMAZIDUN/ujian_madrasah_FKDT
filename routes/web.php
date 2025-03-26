@@ -3,7 +3,7 @@
 use App\Http\Controllers\{ProfileController, AuthenticatedSessionController,
     UjianController, AuthController, AdminController, UserController, UserrController, LoginController, 
     MasterMDTController, DataController, LembagaController, ImportController, ExportController, 
-    PesertaController,CetakController};
+    PesertaController,CetakkartuController};
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\{Route, Auth, DB};
@@ -20,10 +20,6 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Route Default Dashboard (Mencegah Loop Redirect)
 Route::get('/dashboard', function () {
-    if (!Auth::check()) {
-        return redirect()->route('login');
-    }
-    
     $user = Auth::user();
     return $user->role === 'admin' ? redirect()->route('admin.dashboard') : redirect()->route('user.dashboard');
 })->middleware('auth')->name('dashboard');
@@ -84,11 +80,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/generate-no-peserta', [PesertaController::class, 'generateNoPeserta'])->name('generate.no_peserta');
     Route::put('/master-mdt/update', [MasterMDTController::class, 'update'])->name('master_mdt.update');
     Route::post('/save-no-peserta', [MasterMDTController::class, 'saveNoPeserta'])->name('save.no_peserta');
-    Route::get('/cetak-kartu', [CetakController::class, 'cetak'])->name('cetak.kartu');
+    Route::get('/admin.layout.cetakkartu', [CetakKartuController::class, 'cetakkartu'])->name('admin.layout.cetak-kartu');
+    Route::get('/admin/cetak-kartu', [AdminController::class, 'cetakKartu'])->name('admin.cetak-kartu');
+    Route::get('/admin/maincontent', [AdminController::class, 'showMainContent'])->name('admin.maincontent');
+    Route::get('/admin/cetak-pdf', [AdminController::class, 'cetakPDF'])->name('admin.cetak-pdf');
+    Route::get('/peserta', [PesertaController::class, 'index'])->name('peserta.index');
 });
-
-// Route untuk logout menggunakan controller
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 // Route untuk masterMDT
 Route::get('/master_mdt', [MasterMDTController::class, 'index']);

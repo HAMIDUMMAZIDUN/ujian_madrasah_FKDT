@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\User;
 
 class LoginController extends Controller
@@ -22,22 +23,26 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
-            $user = Auth::user(); // Mendapatkan data user yang berhasil login
+            $user = Auth::user();
+            
+            Alert::success('Login Berhasil', 'Selamat datang, ' . $user->name . '!');
 
             if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard'); // Admin masuk ke dashboard utama
+                return redirect()->route('admin.dashboard');
             } elseif ($user->role === 'user') {
-                return redirect()->route('Lembaga.dashboard'); // User masuk ke user dashboard
+                return redirect()->route('Lembaga.dashboard');
             }
         }
 
-        return redirect()->back()->with('error', 'Tes error SweetAlert!');
+        Alert::error('Login Gagal', 'Email atau password salah!');
+        return redirect()->back();
     }
 
     public function logout()
     {
         Auth::logout();
         Session::flush();
+        Alert::info('Logout Berhasil', 'Anda telah keluar dari sistem.');
         return redirect()->route('login');
     }
 }
