@@ -24,13 +24,13 @@ class LoginController extends Controller
 
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            
+            session(['user_id' => $user->id]); 
             Alert::success('Login Berhasil', 'Selamat datang, ' . $user->name . '!');
 
             if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.layouts.dashboard');
             } elseif ($user->role === 'user') {
-                return redirect()->route('Lembaga.dashboard');
+                return redirect()->route('user.layouts.dashboard');
             }
         }
 

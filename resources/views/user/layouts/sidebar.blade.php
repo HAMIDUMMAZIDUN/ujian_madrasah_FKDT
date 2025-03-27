@@ -49,14 +49,4 @@
             <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-blue-600">Terapkan Filter</button>
         </div>
     </form>
-
-    <!-- Tombol Cetak kartu  -->
-    <div x-data="{ openModal: false }">
-    <a href="{{ route('admin.layout.cetak-kartu') }}" 
-       class="flex items-center justify-between p-2 text-gray-300 hover:bg-gray-700 rounded cursor-pointer">
-        <div class="flex items-center">
-            <i data-lucide="building"></i>
-            <span class="ml-2">Cetak Kartu</span>
-        </div>
-    </a>
-</div>
+</nav>
