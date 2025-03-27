@@ -18,11 +18,18 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Route Default Dashboard (Mencegah Loop Redirect)
 Route::get('/dashboard', function () {
     $user = Auth::user();
-    return $user->role === 'admin' ? redirect()->route('admin.dashboard') : redirect()->route('user.dashboard');
+    
+    if ($user->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    } elseif ($user->role === 'user') {
+        return redirect()->route('user.dashboard');
+    } else {
+        return abort(403, 'Akses ditolak');
+    }
 })->middleware('auth')->name('dashboard');
+
 
 // Route untuk pengguna yang sudah login
 Route::middleware(['auth'])->group(function () {

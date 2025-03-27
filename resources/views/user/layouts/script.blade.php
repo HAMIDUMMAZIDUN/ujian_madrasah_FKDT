@@ -9,6 +9,11 @@
         document.getElementById('dropdown-menu').classList.toggle('hidden');
     });
 
+    //
+    document.addEventListener("DOMContentLoaded", function () {
+        lucide.createIcons();
+    });
+
     // Tampilkan data tersembunyi
     const viewAllButton = document.getElementById('view-all-btn');
     if (viewAllButton) {
@@ -234,5 +239,4 @@
             });
         });
     });
-
 </script>
